@@ -1,0 +1,42 @@
+﻿@using BackOffice.Client.Services
+@inject INotificationService _notificationService
+
+<MudFileUpload T="IBrowserFile" Class="mt-10 ml-14" FilesChanged="UploadFiles" Accept=".png, .jpg">
+     <ButtonTemplate>
+         @if (!_showAvatar)
+         {
+             <MudButton HtmlTag="label"
+                        Variant="Variant.Filled"
+                        Color="Color.Primary"
+                        for="@context">
+                 Add Avatar
+             </MudButton>
+         }
+         else
+         {
+             <MudButton HtmlTag="label"
+                        Variant="Variant.Filled"
+                        Color="Color.Error" OnClick="DeleteSelectedFile">
+                 Clear
+             </MudButton>
+         }
+
+     </ButtonTemplate>
+     <SelectedTemplate>
+         @if (!string.IsNullOrEmpty(_uploadFile.Name))
+         {
+             <MudText Class="mt-3">@_uploadFile.Name</MudText>
+         }
+         else
+         {
+             <MudText Class="mt-3">Max size 2 MB</MudText>
+         }
+     </SelectedTemplate>
+ </MudFileUpload>
+ <MudSpacer/>
+ @if (_showAvatar)
+ {
+     <MudAvatar Style="height:135px; width:135px;" Class="mr-10" Size="Size.Small" Color="Color.Warning" Variant="Variant.Filled">
+         <MudImage Class="rounded-xl" Src="@GetBase64Image()" Width="300" Height="200" Alt="Image"/>
+     </MudAvatar>
+ }
