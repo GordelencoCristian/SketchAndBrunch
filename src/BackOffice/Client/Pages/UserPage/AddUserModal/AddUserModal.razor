@@ -1,0 +1,45 @@
+﻿@using BackOffice.Client.Pages.UserPage.AddUserModal.UploadAvatar
+@using BackOffice.Shared.Models
+@using SharedData.Models.Reference
+
+<MudDialog>
+    <DialogContent>
+        <EditForm EditContext="@_userProfileEditContext" OnSubmit="() => ValidateContext()">
+            <DataAnnotationsValidator/>
+            <MudItem >
+                <MudCard Elevation="0">
+                    <MudCardContent>
+                        <MudTextField Label="First name" 
+                                      @bind-Value="Model.FirstName" For="@(() => Model.FirstName)" />
+                        <MudTextField Label="Last name"
+                                      @bind-Value="Model.LastName" For="@(() => Model.LastName)" />
+                        <MudTextField Label="Email" HelperText="sisbrinfo@gmail.com" Class="mt-3" 
+                                      @bind-Value="Model.Email" For="@(() => Model.Email)" />
+
+                        <MudTextField Label="Birthday" HelperText="Birthday date" Format="yyyy-MM-dd" Class="mt-4"
+                                      @bind-Value="Model.BirthDay" For="@(() => Model.BirthDay)" InputType="InputType.Date" />
+
+                        <MudTextField Adornment="Adornment.Start" IconSize="Size.Small" AdornmentIcon="@Icons.Material.Filled.Phone" Label="Phone" HelperText="+(373) xx-xxx-xxx" Class="mt-4"
+                                      @bind-Value="Model.PhoneNumber" For="@(() => Model.PhoneNumber)" InputType="InputType.Telephone" />
+
+                        <MudSelect @bind-Value="Model.Role" Label="Select Role" Validation="@_userProfileEditContext" Placeholder="Please Select Role" Class="mt-6">
+                            @foreach (var item in RoleList)
+                            {
+                                <MudSelectItem Value="@item">@item.Name</MudSelectItem>
+                            }
+                        </MudSelect>
+                    </MudCardContent>
+                </MudCard>
+            </MudItem>
+        </EditForm>
+           
+        <MudCard Class="pa-4 align-start d-flex mb-4 border-dashed border-2 mud-border-primary" Elevation="0">
+            <UploadAvatar></UploadAvatar>
+        </MudCard>
+
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Primary" OnClick="ValidateContext">Ok</MudButton>
+    </DialogActions>
+</MudDialog>

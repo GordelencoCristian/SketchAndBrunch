@@ -1,0 +1,114 @@
+﻿@page "/users"
+@inject IDialogService DialogService
+
+@inject HttpClient httpClient
+
+<div class="d-flex justify-end flex-grow-1 gap-4 pb-2">
+    <MudButton
+        Variant="Variant.Filled"
+        OnClick="@(_ => OpenModal(_modalOptions))"
+        StartIcon="@Icons.Material.Filled.PersonAdd"
+        Color="Color.Dark">
+        Add User
+    </MudButton>
+</div>
+
+<MudTable Items="@Elements" Elevation="1" Dense="@dense" Hover="@hover" Bordered="@bordered" Striped="@striped" Filter="new Func<Element,bool>(FilterFunc1)" @bind-SelectedItem="selectedItem1">
+    <ToolBarContent>
+        <div class="w-30">
+            <MudTextField @bind-Value="searchString1" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Small" Class="mt-0"></MudTextField>
+        </div>
+    </ToolBarContent>
+    <HeaderContent>
+        <MudTh>Nr</MudTh>
+        <MudTh>Sign</MudTh>
+        <MudTh>Name</MudTh>
+        <MudTh>Position</MudTh>
+        <MudTh>Molar mass</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Nr">@context.Number</MudTd>
+        <MudTd DataLabel="Sign">@context.Sign</MudTd>
+        <MudTd DataLabel="Name">@context.Name</MudTd>
+        <MudTd DataLabel="Position">@context.Position</MudTd>
+        <MudTd DataLabel="Molar mass">@context.Molar</MudTd>
+    </RowTemplate>
+    <PagerContent>
+        <MudTablePager />
+    </PagerContent>
+</MudTable>
+
+<div class="d-flex flex-wrap mt-4">
+    <MudSwitch @bind-Checked="@hover" Color="Color.Primary">Hover</MudSwitch>
+    <MudSwitch @bind-Checked="@dense" Color="Color.Secondary">Dense</MudSwitch>
+    <MudSwitch @bind-Checked="@striped" Color="Color.Tertiary">Striped</MudSwitch>
+    <MudSwitch @bind-Checked="@bordered" Color="Color.Warning">Bordered</MudSwitch>
+    <MudSpacer />
+    <div style="min-width:200px;">
+        <MudText Inline="true" Class="align-self-center">Selected1: @selectedItem1?.Name</MudText>
+    </div>
+</div>
+
+@code {
+    private bool dense = false;
+    private bool hover = true;
+    private bool striped = false;
+    private bool bordered = false;
+    private string searchString1 = "";
+    private Element selectedItem1 = null;
+    private HashSet<Element> selectedItems = new HashSet<Element>();
+
+    private static IEnumerable<Element> Elements = new List<Element>
+    {
+        new () { Number = 1, Sign = "H", Name = "Hydrogen", Position = "1s1", Molar = 1.008m },
+        new () { Number = 2, Sign = "He", Name = "Helium", Position = "1s2", Molar = 4.0026m },
+        new () { Number = 3, Sign = "Li", Name = "Lithium", Position = "2s1", Molar = 6.94m },
+        new () { Number = 4, Sign = "Be", Name = "Beryllium", Position = "2s2", Molar = 9.0122m },
+        new () { Number = 5, Sign = "B", Name = "Boron", Position = "2p1", Molar = 10.81m },
+        new () { Number = 6, Sign = "C", Name = "Carbon", Position = "2p2", Molar = 12.011m },
+        new () { Number = 7, Sign = "N", Name = "Nitrogen", Position = "2p3", Molar = 14.007m },
+        new () { Number = 8, Sign = "O", Name = "Oxygen", Position = "2p4", Molar = 15.999m },
+        new () { Number = 9, Sign = "F", Name = "Fluorine", Position = "2p5", Molar = 18.998m },
+        new () { Number = 10, Sign = "Ne", Name = "Neon", Position = "2p6", Molar = 20.180m },
+        new () { Number = 11, Sign = "Na", Name = "Sodium", Position = "3s1", Molar = 22.990m },
+        new () { Number = 12, Sign = "Mg", Name = "Magnesium", Position = "3s2", Molar = 24.305m },
+        new () { Number = 13, Sign = "Al", Name = "Aluminum", Position = "3p1", Molar = 26.982m },
+        new () { Number = 14, Sign = "Si", Name = "Silicon", Position = "3p2", Molar = 28.085m },
+        new () { Number = 15, Sign = "P", Name = "Phosphorus", Position = "3p3", Molar = 30.974m },
+        new () { Number = 16, Sign = "S", Name = "Sulfur", Position = "3p4", Molar = 32.06m },
+        new () { Number = 17, Sign = "Cl", Name = "Chlorine", Position = "3p5", Molar = 35.45m },
+        new () { Number = 18, Sign = "Ar", Name = "Argon", Position = "3p6", Molar = 39.948m },
+        new () { Number = 19, Sign = "K", Name = "Potassium", Position = "4s1", Molar = 39.098m },
+        new () { Number = 20, Sign = "Ca", Name = "Calcium", Position = "4s2", Molar = 40.078m }
+    };
+
+    protected override async Task OnInitializedAsync()
+    {
+    }
+
+    private bool FilterFunc1(Element element) => FilterFunc(element, searchString1);
+
+    private bool FilterFunc(Element element, string searchString)
+    {
+        if (string.IsNullOrWhiteSpace(searchString))
+            return true;
+        if (element.Sign.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (element.Name.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if ($"{element.Number} {element.Position} {element.Molar}".Contains(searchString))
+            return true;
+        return false;
+    }
+
+    public class Element
+    {
+        public int Number { get; set; }
+        public string Sign { get; set; }
+        public string Name { get; set; }
+        public string Position { get; set; }
+        public decimal Molar { get; set; }
+    }
+
+    
+}
