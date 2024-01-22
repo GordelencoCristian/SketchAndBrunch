@@ -1,7 +1,6 @@
 ﻿using BackOffice.Shared.Enums;
-using BackOffice.Shared.Validators;
 using System.ComponentModel.DataAnnotations;
-using SharedData.Models.Reference;
+using BackOffice.Shared.Validators;
 
 namespace BackOffice.Shared.Models
 {
@@ -18,17 +17,38 @@ namespace BackOffice.Shared.Models
         public string LastName { get; set; }
 
         [Required(ErrorMessage = "Phone number is required.")]
-        [CustomPhoneNumberValidator(ErrorMessage = "Phone number must start with +373 and have a total of 11 characters.")]
-        public string PhoneNumber { get; set; }
+        [CustomPhoneNumberValidator(ErrorMessage = "Required")]
+        public string PhoneNumber
+        {
+            get
+            {
+                if (Country == null)
+                {
+                    return string.Empty;
+                }
+
+                return Country.PhoneCode + _phoneNumber;
+            }
+            set
+            {
+                _phoneNumber = value;
+            }
+        }
+
+        private string _phoneNumber = string.Empty;
 
         [Required]
         public GenderEnumModel Gender { get; set; }
+
 
         [Required] 
         public DateTime? BirthDay { get; set; } = null;
 
         [Required]
         public RoleModel Role { get; set; }
+
+        [Required]
+        public CountryModel? Country { get; set; }
 
         //public SelectItem<int> Role { get; set; }
 
