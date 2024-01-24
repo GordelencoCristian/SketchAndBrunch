@@ -18,24 +18,7 @@ namespace BackOffice.Shared.Models
 
         [Required(ErrorMessage = "Phone number is required.")]
         [CustomPhoneNumberValidator(ErrorMessage = "Required")]
-        public string PhoneNumber
-        {
-            get
-            {
-                if (Country == null)
-                {
-                    return string.Empty;
-                }
-
-                return Country.PhoneCode + _phoneNumber;
-            }
-            set
-            {
-                _phoneNumber = value;
-            }
-        }
-
-        private string _phoneNumber = string.Empty;
+        public string PhoneNumber { get; set; }
 
         [Required]
         public GenderEnumModel Gender { get; set; }

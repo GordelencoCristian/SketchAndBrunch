@@ -85,8 +85,6 @@ namespace BackOffice.Server.Controllers
                 IsAuthenticated = User.Identity.IsAuthenticated,
                 UserName = User.Identity.Name,
                 ExposedClaims = User.Claims
-                    //Optionally: filter the claims you want to expose to the client
-                    //.Where(c => c.Type == "test-claim")
                     .ToDictionary(c => c.Type, c => c.Value)
             };
         }

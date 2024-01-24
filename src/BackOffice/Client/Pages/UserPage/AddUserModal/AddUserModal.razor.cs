@@ -10,6 +10,7 @@ namespace BackOffice.Client.Pages.UserPage.AddUserModal
 {
     public partial class AddUserModal : ComponentBase
     {
+        MudForm _form;
 
         public UserProfileModel Model { get; set; } = new();
 
@@ -51,6 +52,7 @@ namespace BackOffice.Client.Pages.UserPage.AddUserModal
 
         private void ValidateContext()
         {
+            //_form.Validate();
             var isValid = _userProfileEditContext != null && _userProfileEditContext.Validate();
 
             if (isValid) { Submit();} else return;
