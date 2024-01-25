@@ -5,18 +5,41 @@
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
 <link href="_content/MudBlazor.ThemeManager/MudBlazorThemeManager.css" rel="stylesheet" />
-<PageTitle>SISBR</PageTitle>
+<PageTitle>Sketch & Brunch</PageTitle>
 
 <AuthorizeView>
     <Authorized>
-        <h1>Hello @context.User.Identity.Name !!</h1>
+        <h1>Hello, @context.User.Identity.Name!</h1>
 
         <MudText Typo="Typo.h3" GutterBottom="true">Hello, world!</MudText>
-        <MudText Class="mb-8">Welcome to your new app, powered by MudBlazor!</MudText>
-        <MudAlert Severity="Severity.Normal">You can find documentation and examples on our website here: <MudLink Href="https://mudblazor.com" Typo="Typo.body2" Color="Color.Inherit"><b>www.mudblazor.com</b></MudLink></MudAlert>
 
+        <MudCarousel Class="mud-width-full" Style="height:200px;" ShowArrows="@arrows" ShowBullets="@bullets" EnableSwipeGesture="@enableSwipeGesture" AutoCycle="@autocycle" TData="object">
+            <MudCarouselItem Transition="transition" Color="@Color.Primary">
+                <div class="d-flex" style="height:100%">
+                    <MudIcon Class="mx-auto my-auto" Icon="@Icons.Custom.Brands.MudBlazor" Size="@Size.Large" />
+                </div>
+            </MudCarouselItem>
+            <MudCarouselItem Transition="transition" Color="@Color.Secondary">
+                <div class="d-flenbmvbnmx" style="height:100%">
+                    <MudIcon Class="mx-auto my-auto" Icon="@Icons.Custom.Brands.MudBlazor" Size="@Size.Large" />
+                </div>
+            </MudCarouselItem>
+            <MudCarouselItem Transition="transition">
+                <div class="d-flex" style="height:100%">
+                    <MudIcon Class="mx-auto my-auto" Icon="@Icons.Custom.Brands.MudBlazor" Color="@Color.Primary" Size="@Size.Large" />
+                </div>
+            </MudCarouselItem>
+        </MudCarousel>
     </Authorized>
     <Authorizing>
         <h1>Loading ...</h1>
     </Authorizing>
 </AuthorizeView>
+
+@code {
+    private bool arrows = true;
+    private bool bullets = true;
+    private bool enableSwipeGesture = true;
+    private bool autocycle = true;
+    private Transition transition = Transition.Slide;
+}
