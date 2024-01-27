@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Persistance.Entities;
-using SharedData.EmailSender;
 using SharedData.Models;
+using SharedData.Services.EmailSender;
 
 namespace BackOffice.Server.Controllers
 {
@@ -13,10 +13,10 @@ namespace BackOffice.Server.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly IEmailSender _emailSender;
+        private readonly IEmailSenderService _emailSender;
         private readonly string _defaultPassword = "Parola11a#";
 
-        public AuthorizeController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IEmailSender emailSender)
+        public AuthorizeController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IEmailSenderService emailSender)
         {
             _userManager = userManager;
             _signInManager = signInManager;

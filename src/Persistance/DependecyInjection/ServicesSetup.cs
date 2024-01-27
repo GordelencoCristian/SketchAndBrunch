@@ -20,6 +20,7 @@ namespace Persistance.DependecyInjection
             return services;
         }
 
+       
         public static IServiceCollection AddCustomAuthentication(this IServiceCollection services)
         {
             services.AddIdentity<ApplicationUser, IdentityRole<Guid>>()
