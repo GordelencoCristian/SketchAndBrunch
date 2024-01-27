@@ -1,8 +1,9 @@
 using Persistance.DependecyInjection;
-using SharedData.EmailSender;
-using SharedData.EmailSender.Implementations;
 using System.Reflection;
 using BackOffice.Client;
+using SharedData.Services;
+using SharedData.Services.EmailSender;
+using SharedData.Services.EmailSender.Implementations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,7 +17,8 @@ builder.Services.AddHealthChecks();
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
-builder.Services.AddTransient<IEmailSender, EmailSender>();
+
+builder.Services.ConfigureEmailSender(builder.Configuration.GetSection("Smtp"));
 
 var app = builder.Build();
 

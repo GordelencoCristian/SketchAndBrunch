@@ -2,10 +2,6 @@
 {
     public class CountryModel
     {
-        public CountryModel()
-        {
-            
-        }
         public CountryModel(string name, string code, string phoneCode, string iconPath)
         {
             Name = name;

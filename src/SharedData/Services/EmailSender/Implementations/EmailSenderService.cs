@@ -1,23 +1,32 @@
 ﻿using System.Net;
 using System.Net.Mail;
+using Microsoft.Extensions.Options;
+using SharedData.Configurations;
 
-namespace SharedData.EmailSender.Implementations
+namespace SharedData.Services.EmailSender.Implementations
 {
-    public class EmailSender : IEmailSender
+    public class EmailSenderService : IEmailSenderService
     {
+        private readonly EmailSenderConfig _config;
+
+        public EmailSenderService(IOptions<EmailSenderConfig> config)
+        {
+            _config = config.Value;
+        }
+
         public async Task SendEmailAsync(string email, string subject, string message)
         {
             var smtpClient = new SmtpClient()
             {
-                Host = "smtp.gmail.com",
-                Port = 587,
+                Host = _config.Server,
+                Port = _config.Port,
                 EnableSsl = true,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
                 UseDefaultCredentials = false,
                 Credentials = new NetworkCredential
                 {
-                    UserName = "sisbrinfo@gmail.com",
-                    Password = "dalqisdlanvvkkcn"
+                    UserName = _config.UserName,
+                    Password = _config.Password,
                 }
             };
 
@@ -35,11 +44,7 @@ namespace SharedData.EmailSender.Implementations
 
             try
             {
-                for (int i = 0; i < 10; i++)
-                {
-                    await Task.Delay(1000);
-                    smtpClient.Send(emailMessage);
-                }
+                smtpClient.Send(emailMessage);
 
                 Console.WriteLine("Email sent successfully");
             }
