@@ -30,8 +30,8 @@ namespace SharedData.Services.EmailSender.Implementations
                 }
             };
 
-            var fromEmail = new MailAddress("sisbrinfo@gmail.com", "SISBR");
-            var toEmail = new MailAddress(email, "SISBR");
+            var fromEmail = new MailAddress("sisbrinfo@gmail.com", "Sketch & Brunch");
+            var toEmail = new MailAddress(email, "Sketch & Brunch");
 
             var emailMessage = new MailMessage
             {
