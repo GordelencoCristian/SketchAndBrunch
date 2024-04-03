@@ -10,8 +10,6 @@ namespace BackOffice.Client.Pages.UserPage.AddUserModal
 {
     public partial class AddUserModal : ComponentBase
     {
-        MudForm _form;
-
         public UserProfileModel Model { get; set; } = new();
 
         private EditContext? _userProfileEditContext;
@@ -49,6 +47,11 @@ namespace BackOffice.Client.Pages.UserPage.AddUserModal
 
         void Submit() => MudDialog.Close(DialogResult.Ok(true));
         void Cancel() => MudDialog.Cancel();
+
+        void SelectValueChanged()
+        {
+            if (Model.Country != null) Model.PhoneNumber = Model.Country.PhoneCode;
+        }
 
         private void ValidateContext()
         {

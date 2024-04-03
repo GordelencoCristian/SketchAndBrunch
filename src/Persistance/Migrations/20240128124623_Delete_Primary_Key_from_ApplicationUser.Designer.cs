@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistance.Contexts;
 
@@ -11,9 +12,11 @@ using Persistance.Contexts;
 namespace Persistance.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240128124623_Delete_Primary_Key_from_ApplicationUser")]
+    partial class Delete_Primary_Key_from_ApplicationUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -193,7 +196,7 @@ namespace Persistance.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ApplicantUsers", (string)null);
+                    b.ToTable("ApplicantUsers");
                 });
 
             modelBuilder.Entity("Persistance.Entities.ApplicationUser", b =>
@@ -298,7 +301,7 @@ namespace Persistance.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Avatars", (string)null);
+                    b.ToTable("Avatars");
                 });
 
             modelBuilder.Entity("Persistance.Entities.Request", b =>
@@ -342,7 +345,7 @@ namespace Persistance.Migrations
 
                     b.HasIndex("UserProfileId");
 
-                    b.ToTable("Requests", (string)null);
+                    b.ToTable("Requests");
                 });
 
             modelBuilder.Entity("Persistance.Entities.ScheduledRequest", b =>
@@ -389,7 +392,7 @@ namespace Persistance.Migrations
 
                     b.HasIndex("UserProfileId");
 
-                    b.ToTable("ScheduledRequests", (string)null);
+                    b.ToTable("ScheduledRequests");
                 });
 
             modelBuilder.Entity("Persistance.Entities.SystemRole", b =>
@@ -423,7 +426,7 @@ namespace Persistance.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("SystemRoles", (string)null);
+                    b.ToTable("SystemRoles");
                 });
 
             modelBuilder.Entity("Persistance.Entities.UserProfile", b =>
@@ -482,7 +485,7 @@ namespace Persistance.Migrations
 
                     b.HasIndex("SystemRoleId");
 
-                    b.ToTable("UserProfiles", (string)null);
+                    b.ToTable("UserProfiles");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>

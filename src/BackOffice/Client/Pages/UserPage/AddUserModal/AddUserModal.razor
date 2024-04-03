@@ -6,7 +6,6 @@
     <DialogContent>
         <EditForm EditContext="@_userProfileEditContext" OnSubmit="() => ValidateContext()">
             <DataAnnotationsValidator/>
-            @* <MudForm @ref="_form"> *@
                 <MudItem>
                     <MudCard Elevation="0">
                         <MudCardContent>
@@ -22,7 +21,7 @@
 
                             <MudGrid>
                                 <MudItem xs="4">
-                                    <MudSelect For="@(() => Model.Country)" T="CountryModel" @bind-Value="@Model.Country" Class="mt-4" Label="Country">
+                                    <MudSelect For="@(() => Model.Country)" T="CountryModel" SelectedValuesChanged="SelectValueChanged" @bind-Value="@Model.Country" Class="mt-4" Label="Country">
                                         @foreach (var item in CountryList)
                                         {
                                             <MudSelectItem Value="@item"><img src="@item.IconPath" height="14" width="14" class="mr-1" alt="Republic of Moldova"> @item.Name</MudSelectItem>
@@ -43,7 +42,6 @@
                         </MudCardContent>
                     </MudCard>
                 </MudItem>
-            @* </MudForm> *@
         </EditForm>
            
         <MudCard Class="pa-4 align-start d-flex mb-4 border-dashed border-2 mud-border-primary" Elevation="0">

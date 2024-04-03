@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Persistance.Contexts;
 using Persistance.Entities;
 using SharedData.Models;
 using SharedData.Services.EmailSender;
@@ -15,12 +17,17 @@ namespace BackOffice.Server.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSenderService _emailSender;
         private readonly string _defaultPassword = "Parola11a#";
+        private readonly AppDbContext _appDbContext;
 
-        public AuthorizeController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IEmailSenderService emailSender)
+        public AuthorizeController(UserManager<ApplicationUser> userManager, 
+            SignInManager<ApplicationUser> signInManager, 
+            IEmailSenderService emailSender, 
+            AppDbContext appDbContext)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
+            _appDbContext = appDbContext;
         }
 
         [HttpPost]
@@ -74,16 +81,18 @@ namespace BackOffice.Server.Controllers
         public async Task<UserInfo> UserInfo()
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
-            return BuildUserInfo();
+
+            return BuildUserInfo(user);
         }
 
 
-        private UserInfo BuildUserInfo()
+        private UserInfo BuildUserInfo(ApplicationUser applicationUser)
         {
             return new UserInfo
             {
                 IsAuthenticated = User.Identity.IsAuthenticated,
                 UserName = User.Identity.Name,
+                //UserId = applicationUser.UserProfile.Id,
                 ExposedClaims = User.Claims
                     .ToDictionary(c => c.Type, c => c.Value)
             };

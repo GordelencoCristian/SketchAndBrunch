@@ -1,6 +1,7 @@
 ﻿namespace SharedData.Configurations
 {
-    public class EmailSenderConfig
+    public class 
+        EmailSenderConfig
     {
         public string Server { get; set; }
         public int Port { get; set; }

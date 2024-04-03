@@ -19,8 +19,5 @@ namespace Persistance.Entities
 
         public ICollection<Request> Requests { set; get; }
         public ICollection<ScheduledRequest> ScheduledRequests { set; get; }
-
-        public Guid? ApplicationUserId { get; set; }
-        public ApplicationUser ApplicationUser { get; set; }
     }
 }

@@ -7,24 +7,12 @@
 
 <PageTitle>Login</PageTitle>
 
-<div
-    style="
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        display: flex;
-        flex-direction: column;
-        width: 50%;"
+<div class="box"
 >
+    <div id="container"><div class="dot"></div></div>
+    
     <div
-        style="padding: 0.5rem 1rem;"
-    >
-        <h5 class="text-center" style="color: grey;">Login</h5>
-    </div>
-    <div
-        Elevation="4"
-        Style="padding: 1rem 1rem; @($"color: white; background:{Colors.Shades.Black};")"
+        Style="padding: 1rem 1rem; border-radius: 5px; @($"color: white; background:{Colors.Shades.Black};")"
     >
         <EditForm class="form-signin" OnValidSubmit="OnSubmit" Model="loginParameters">
         <DataAnnotationsValidator />
@@ -38,18 +26,19 @@
             <div class="form-floating mb-3" style="margin-top: 20px;">
                 <InputText type="password" id="inputPassword" class="input" placeholder="Password" Style="@($"color:{Colors.Grey.Lighten1};")" @bind-Value="loginParameters.Password" />
                 <label for="inputPassword" style="color: grey">Password</label>
+
                 <ValidationMessage For="@(() => loginParameters.Password)" />
             </div>
 
             <div class="form-group mb-3">
                 <div class="form-check">
                     <InputCheckbox id="inputRememberMe" class="form-check-input" @bind-Value="@loginParameters.RememberMe" />
-                    <label class="form-check-label" for="inputRememberMe">Remember me</label>
+                    <label class="form-check-label" for="inputRememberMe" style="margin-top: 5px;">Remember me</label>
                 </div>
             </div>
 
             <div>
-                <button class="btn btn-lg btn-block" style="color: white;" type="submit">Sign in</button>
+                <button class="button-6" type="submit">Sign in</button>
             </div>
 
             <label class="text-danger">@error</label>
