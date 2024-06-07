@@ -98,7 +98,7 @@ namespace BackOffice.Server.Controllers
             };
         }
 
-        private string GetEmailMessage(string? email, string password)
+        private string GetEmailMessage(string email, string password)
         {
             return $"Buna, a fost creat un cont nou pentru SISBR (Informational System Barber Shop) <br>" +
                    $"User Name: {email} <br> sisbrinfo@gmail.com" +

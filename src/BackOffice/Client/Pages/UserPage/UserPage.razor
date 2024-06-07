@@ -5,20 +5,6 @@
 @inject HttpClient httpClient
 @inject IAuthorizeApi _AuthorizeApi
 
-<MudExpansionPanels MultiExpansion="true">
-    <MudExpansionPanel Text="Panel One">
-        <div class="d-flex justify-end flex-grow-1 gap-4 pb-2">
-            <MudButton
-                Variant="Variant.Filled"
-                OnClick="@(_ => OpenModal(_modalOptions))"
-                StartIcon="@Icons.Material.Filled.PersonAdd"
-                Color="Color.Dark">
-                Add User
-            </MudButton>
-        </div>
-    </MudExpansionPanel>
-</MudExpansionPanels>
-
 <div class="d-flex justify-end flex-grow-1 gap-4 pb-2">
     <MudButton
         Variant="Variant.Filled"

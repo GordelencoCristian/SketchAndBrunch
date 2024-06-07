@@ -14,7 +14,7 @@ namespace SharedData.Services.EmailSender.Implementations
             _config = config.Value;
         }
 
-        public async Task SendEmailAsync(string email, string subject, string message)
+        public async Task SendEmailAsync(string? email, string subject, string message)
         {
             var smtpClient = new SmtpClient()
             {
@@ -31,7 +31,7 @@ namespace SharedData.Services.EmailSender.Implementations
             };
 
             var fromEmail = new MailAddress("sisbrinfo@gmail.com", "Sketch & Brunch");
-            var toEmail = new MailAddress(email, "Sketch & Brunch");
+            var toEmail = new MailAddress(email ?? string.Empty, "Sketch & Brunch");
 
             var emailMessage = new MailMessage
             {

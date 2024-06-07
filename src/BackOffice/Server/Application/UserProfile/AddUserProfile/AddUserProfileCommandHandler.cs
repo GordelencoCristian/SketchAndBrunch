@@ -1,6 +1,4 @@
-﻿using BackOffice.Server.Application.UserProfile.GetNumberOfCigarets;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
+﻿using MediatR;
 using Persistance.Contexts;
 
 namespace BackOffice.Server.Application.UserProfile.AddUserProfile
@@ -19,15 +17,9 @@ namespace BackOffice.Server.Application.UserProfile.AddUserProfile
         public async Task<int> Handle(AddUserProfileCommand request, CancellationToken cancellationToken)
         {
             var user = _appDbContext.Users.FirstOrDefault(x => x.UserProfile.Email == "diyna");
-
-            var numberOfCigarets = await _mediator.Send(new GetNumberOfCigaretsQyery
-            {
-                Id = 2,
-                IsReady = true
-            });
-
+        
             _appDbContext.Users.Remove(user);
-            _appDbContext.SaveChanges();
+            await _appDbContext.SaveChangesAsync();
             throw new NotImplementedException();
         }
     }

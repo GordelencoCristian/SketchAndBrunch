@@ -4,10 +4,10 @@ namespace BackOffice.Shared.Models
 {
     public class RoleModel
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         [Required]
         public string Name { get; set; }
-        public IEnumerable<string> Permistions { get; set; }
+        public List<PermissionsModel> Permissions { get; set; } = new List<PermissionsModel>();
     }
 }

@@ -2,11 +2,11 @@
 
 namespace Persistance.Entities
 {
-    public class SystemRole : SoftDeleteBaseEntity
+    public class Permission : SoftDeleteBaseEntity
     {
         public string Name { get; set; }
-        
-        public ICollection<UserProfile> UserProfiles { set; get; }
+        public string Description { get; set; }     
+        public string Code { get; set; }
 
         public ICollection<SystemRolePermissions> SystemRolePermissions { get; set; }
     }

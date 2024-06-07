@@ -1,4 +1,5 @@
-﻿using BackOffice.Shared.Models;
+﻿using BackOffice.Client.Services;
+using BackOffice.Shared.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using MudBlazor;
@@ -7,35 +8,53 @@ namespace BackOffice.Client.Pages.Roles.RoleModal
 {
     public partial class RoleModal : ComponentBase
     {
+        private bool _isLoading;
+        private bool _showPermissionsError;
+
         public RoleModel Role { get; set; } = new();
         private EditContext _roleEditContext;
 
-        private bool _showPermitionsError = false;
-
-        public List<string> Permistions = new List<string>()
-        {
-            "UsersEntity", "CalendarEntity", "StatisticsEntity", "RolesEntity"
-        };
+        public List<PermissionsModel> Permissions = new() { };
         [CascadingParameter] MudDialogInstance MudDialog { get; set; }
-        protected override void OnInitialized()
+        protected override async Task OnInitializedAsync()
         {
+            _isLoading = true;
+            StateHasChanged();
+
             _roleEditContext = new EditContext(Role);
+
+            Permissions = await RoleService.GetRolePermissions();
+
+            _isLoading = false;
+            StateHasChanged();
         }
 
+
         void Submit() => MudDialog.Close(DialogResult.Ok(true));
+
         void Cancel() => MudDialog.Cancel();
 
-        void ValidateContext()
+        public async  Task ValidateContext()
         {
-            if (!Role.Permistions.Any())
+            if (!Role.Permissions.Any())
             {
-                _showPermitionsError = true;
+                _showPermissionsError = true;
                 StateHasChanged();
             }
-            if (_roleEditContext.Validate())
+
+            if (Role.Permissions.Any() && _roleEditContext.Validate())
             {
+                await RoleService.AddEditRolePermissions(Role);
                 Submit();
             }
         }
+
+        void OnMudSelectChanged()
+        {
+            _showPermissionsError = false;
+            StateHasChanged();
+        }
+
+        Func<PermissionsModel, string> converter = p => p?.Name;
     }
 }

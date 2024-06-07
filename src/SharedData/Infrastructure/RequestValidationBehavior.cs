@@ -13,7 +13,7 @@ namespace SharedData.Infrastructure
             _validators = validators;
         }
 
-        public Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+        public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
         {
             var context = new ValidationContext<TRequest>(request);
 
@@ -35,7 +35,7 @@ namespace SharedData.Infrastructure
                     }).ToList());
             }
 
-            return next();
+            return await next();
         }
     }
 }

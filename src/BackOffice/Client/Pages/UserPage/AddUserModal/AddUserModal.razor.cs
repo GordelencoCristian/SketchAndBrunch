@@ -16,21 +16,21 @@ namespace BackOffice.Client.Pages.UserPage.AddUserModal
 
         public List<RoleModel> RoleList = new()
         {
-            new()
-            {
-                Name = "Administrator",
-                Id = 1
-            },
-            new()
-            {
-                Name = "User",
-                Id = 2
-            },
-            new()
-            {
-                Name = "Person",
-                Id = 3
-            },
+            //new()
+            //{
+            //    Name = "Administrator",
+            //    Id = 1
+            //},
+            //new()
+            //{
+            //    Name = "User",
+            //    Id = 2
+            //},
+            //new()
+            //{
+            //    Name = "Person",
+            //    Id = 3
+            //},
         };
 
         public List<CountryModel> CountryList = new()

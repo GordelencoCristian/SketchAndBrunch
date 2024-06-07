@@ -7,6 +7,7 @@ using System.Reflection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Persistance.Entities;
+using SpatialFocus.EntityFrameworkCore.Extensions;
 
 namespace Persistance.Contexts
 {
@@ -29,6 +30,7 @@ namespace Persistance.Contexts
 
             modelBuilder.HasAnnotation("ProductVersion", "2.2.0-rtm-35687");
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ModuleDbContext).Assembly);
+            //modelBuilder.ConfigureEnumLookup(EnumLookupOptions.Default.SetNamingScheme(n => n).UseNumberAsIdentifier().SetDeleteBehavior(DeleteBehavior.Restrict));
 
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
             {

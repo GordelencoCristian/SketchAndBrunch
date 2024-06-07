@@ -1,3 +1,4 @@
+using BackOffice.Server.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Persistance.DependecyInjection;
 using SharedData.Infrastructure;
@@ -13,6 +14,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddHealthChecks();
 
 builder.Services.ConfigureModuleApplication();
+builder.Services.AddApplication();
 builder.Services.ConfigureEmailSender(builder.Configuration.GetSection("Smtp"));
 
 var app = builder.Build();
