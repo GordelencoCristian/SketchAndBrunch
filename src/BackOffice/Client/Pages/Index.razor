@@ -1,45 +1,27 @@
 ﻿@page "/"
 @using Microsoft.AspNetCore.Authorization
 @attribute [Authorize]
+@inject NavigationManager Navigation
 <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
 <link href="_content/MudBlazor.ThemeManager/MudBlazorThemeManager.css" rel="stylesheet" />
+
 <PageTitle>Sketch & Brunch</PageTitle>
 
-<AuthorizeView>
-    <Authorized>
-        <h1>Hello, @context.User.Identity.Name!</h1>
-
-        <MudText Typo="Typo.h3" GutterBottom="true">Hello, world!</MudText>
-
-        <MudCarousel Class="mud-width-full" Style="height:200px;" ShowArrows="@arrows" ShowBullets="@bullets" EnableSwipeGesture="@enableSwipeGesture" AutoCycle="@autocycle" TData="object">
-            <MudCarouselItem Transition="transition" Color="@Color.Primary">
-                <div class="d-flex" style="height:100%">
-                    <MudIcon Class="mx-auto my-auto" Icon="@Icons.Custom.Brands.MudBlazor" Size="@Size.Large" />
-                </div>
-            </MudCarouselItem>
-            <MudCarouselItem Transition="transition" Color="@Color.Secondary">
-                <div class="d-flenbmvbnmx" style="height:100%">
-                    <MudIcon Class="mx-auto my-auto" Icon="@Icons.Custom.Brands.MudBlazor" Size="@Size.Large" />
-                </div>
-            </MudCarouselItem>
-            <MudCarouselItem Transition="transition">
-                <div class="d-flex" style="height:100%">
-                    <MudIcon Class="mx-auto my-auto" Icon="@Icons.Custom.Brands.MudBlazor" Color="@Color.Primary" Size="@Size.Large" />
-                </div>
-            </MudCarouselItem>
-        </MudCarousel>
-    </Authorized>
-    <Authorizing>
-        <h1>Loading ...</h1>
-    </Authorizing>
-</AuthorizeView>
+<MudContainer MaxWidth="MaxWidth.Medium" Class="mt-5">
+    <AuthorizeView>
+        <Authorized>
+            <MudPaper Class="pa-4">
+                <MudText Typo="Typo.h4" Align="Align.Center" GutterBottom="true">Hello, @context.User.Identity.Name!</MudText>
+                <MudText Typo="Typo.body1" Align="Align.Center" GutterBottom="true">Welcome to Sketch & Brunch. Enjoy your stay!</MudText>
+            </MudPaper>
+        </Authorized>
+        <Authorizing>
+            <MudText Typo="Typo.h4" Align="Align.Center">Loading ...</MudText>
+        </Authorizing>
+    </AuthorizeView>
+</MudContainer>
 
 @code {
-    private bool arrows = true;
-    private bool bullets = true;
-    private bool enableSwipeGesture = true;
-    private bool autocycle = true;
-    private Transition transition = Transition.Slide;
 }
