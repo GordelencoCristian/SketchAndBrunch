@@ -7,57 +7,75 @@
 
 <PageTitle>Register</PageTitle>
 
-<h1 class="text-center">
-    Blazor with Identity Sample
-</h1>
+<style>
+    .card-container {
+        width: 100%;
+        max-width: 500px;
+        margin-top: 50px;
+    }
 
-<div class="container mt-md-5">
-    <div class="row justify-content-md-center">
-        <div class="col-sm-6">
-            <div class="card">
-                <div class="card-header">
-                    <h1 class="h2 text-center">Create Account</h1>
-                </div>
-                <div class="card-body">
-                    <EditForm class="form-signin" OnValidSubmit="OnSubmit" Model="registerParameters">
-                        <DataAnnotationsValidator />
+    .card {
+        background-color: rgba(255, 255, 255, 0.9);
+        border: none;
+        border-radius: 15px;
+    }
 
-                        <div class="form-floating mb-3">
-                            <InputText id="inputUsername" class="form-control" @bind-Value="registerParameters.UserName" autofocus placeholder="Username" />
-                            <label for="inputUsername">User Name</label>
-                            <ValidationMessage For="@(() => registerParameters.UserName)" />
-                        </div>
+    .card-header {
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+    }
 
-                        <div class="form-floating mb-3">
-                            <InputText type="password" id="inputPassword" class="form-control" placeholder="Password" @bind-Value="registerParameters.Password" />
-                            <label for="inputPassword">Password</label>
-                            <ValidationMessage For="@(() => registerParameters.Password)" />
-                        </div>
+    .form-floating label {
+        color: #6c757d;
+    }
+</style>
 
-                        <div class="form-floating mb-3">
-                            <InputText type="password" id="inputPasswordConfirm" class="form-control" placeholder="Password Confirmation" @bind-Value="registerParameters.PasswordConfirm" />
-                            <label for="inputPasswordConfirm">Password Confirmation</label>
-                            <ValidationMessage For="@(() => registerParameters.PasswordConfirm)" />
-                        </div>
+<div class="container d-flex justify-content-center align-items-center vh-100">
+    <div class="card-container">
+        <div class="card shadow-lg">
+            <div class="card-header text-center bg-light">
+                <h2>Create Account</h2>
+            </div>
+            <div class="card-body">
+                <EditForm OnValidSubmit="OnSubmit" Model="registerParameters">
+                    <DataAnnotationsValidator />
 
-                        <div class="d-grid gap-2">
-                            <button class="btn btn-lg btn-primary btn-block" type="submit">Create account</button>
-                        </div>
+                    <div class="form-floating mb-3">
+                        <InputText id="inputUsername" class="form-control" @bind-Value="registerParameters.UserName" autofocus placeholder="Username" />
+                        <label for="inputUsername">Username</label>
+                        <ValidationMessage For="@(() => registerParameters.UserName)" class="text-danger" />
+                    </div>
 
-                        <label class="text-danger">@error</label>
+                    <div class="form-floating mb-3">
+                        <InputText type="password" id="inputPassword" class="form-control" placeholder="Password" @bind-Value="registerParameters.Password" />
+                        <label for="inputPassword">Password</label>
+                        <ValidationMessage For="@(() => registerParameters.Password)" class="text-danger" />
+                    </div>
 
-                        <NavLink href="login">
-                            <h6 class="font-weight-normal text-center">Already have an account? Click here to login</h6>
-                        </NavLink>
-                    </EditForm>
-                </div>
+                    <div class="form-floating mb-3">
+                        <InputText type="password" id="inputPasswordConfirm" class="form-control" placeholder="Password Confirmation" @bind-Value="registerParameters.PasswordConfirm" />
+                        <label for="inputPasswordConfirm">Password Confirmation</label>
+                        <ValidationMessage For="@(() => registerParameters.PasswordConfirm)" class="text-danger" />
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-lg btn-primary btn-block" type="submit">Create account</button>
+                    </div>
+
+                    <div class="text-danger mt-3">@error</div>
+
+                    <hr class="my-4" />
+
+                    <div class="text-center">
+                        <NavLink href="login" class="text-decoration-none">Already have an account? Click here to login</NavLink>
+                    </div>
+                </EditForm>
             </div>
         </div>
     </div>
 </div>
 
 @code {
-
     RegisterParameters registerParameters { get; set; } = new RegisterParameters();
     string error { get; set; }
 
