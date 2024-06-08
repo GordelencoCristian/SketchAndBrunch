@@ -12,8 +12,8 @@ using Persistance.Contexts;
 namespace Persistance.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240607105636_Add_Permissions_Entity_And_SystemRolePermissions")]
-    partial class Add_Permissions_Entity_And_SystemRolePermissions
+    [Migration("20240608145307_AddSystemRolePermissions")]
+    partial class AddSystemRolePermissions
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -471,11 +471,11 @@ namespace Persistance.Migrations
 
             modelBuilder.Entity("Persistance.Entities.SystemRolePermissions", b =>
                 {
-                    b.Property<int>("SystemRoleId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("PermissionId")
-                        .HasColumnType("int");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("CreateById")
                         .HasColumnType("nvarchar(max)");
@@ -486,11 +486,14 @@ namespace Persistance.Migrations
                     b.Property<DateTime?>("DeleteTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
+
+                    b.Property<int>("PermissionId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SystemRoleId")
+                        .HasColumnType("int");
 
                     b.Property<string>("UpdateById")
                         .HasColumnType("nvarchar(max)");
@@ -498,9 +501,11 @@ namespace Persistance.Migrations
                     b.Property<DateTime?>("UpdateDate")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("SystemRoleId", "PermissionId");
+                    b.HasKey("Id");
 
                     b.HasIndex("PermissionId");
+
+                    b.HasIndex("SystemRoleId");
 
                     b.ToTable("SystemRolePermissions");
                 });

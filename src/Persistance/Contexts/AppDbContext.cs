@@ -24,22 +24,5 @@ namespace Persistance.Contexts
         {
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
-
-            modelBuilder.Entity<SystemRole>()
-                .HasMany(sr => sr.SystemRolePermissions)
-                .WithOne(srp => srp.SystemRole)
-                .HasForeignKey(srp => srp.SystemRoleId);
-
-            modelBuilder.Entity<Permission>()
-                .HasMany(p => p.SystemRolePermissions)
-                .WithOne(srp => srp.Permission)
-                .HasForeignKey(srp => srp.PermissionId);
-
-            modelBuilder.Entity<SystemRolePermissions>()
-                .HasKey(srp => new { srp.SystemRoleId, srp.PermissionId });
-        }
     }
 }

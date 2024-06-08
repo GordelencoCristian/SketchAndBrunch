@@ -30,5 +30,12 @@ namespace BackOffice.Client.Services.Implementation
 
             throw new HttpRequestException($"Failed to add/edit role permissions: {response.ReasonPhrase}");
         }
+
+        public async Task<List<RoleModel>> GetUserProfileRoles()
+        {
+            var result = await _httpClient.GetFromJsonAsync<List<RoleModel>>("api/UserProfileRoles/GetUserProfileRoles");
+            if (result != null) return result;
+            throw new NullReferenceException("Null Reference");
+        }
     }
 }
