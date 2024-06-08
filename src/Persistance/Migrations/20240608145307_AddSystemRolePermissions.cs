@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Persistance.Migrations
 {
     /// <inheritdoc />
-    public partial class Add_Permissions_Entity_And_SystemRolePermissions : Migration
+    public partial class AddSystemRolePermissions : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -36,9 +36,10 @@ namespace Persistance.Migrations
                 name: "SystemRolePermissions",
                 columns: table => new
                 {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     SystemRoleId = table.Column<int>(type: "int", nullable: false),
                     PermissionId = table.Column<int>(type: "int", nullable: false),
-                    Id = table.Column<int>(type: "int", nullable: false),
                     CreateById = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UpdateById = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -48,7 +49,7 @@ namespace Persistance.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SystemRolePermissions", x => new { x.SystemRoleId, x.PermissionId });
+                    table.PrimaryKey("PK_SystemRolePermissions", x => x.Id);
                     table.ForeignKey(
                         name: "FK_SystemRolePermissions_Permissions_PermissionId",
                         column: x => x.PermissionId,
@@ -67,6 +68,11 @@ namespace Persistance.Migrations
                 name: "IX_SystemRolePermissions_PermissionId",
                 table: "SystemRolePermissions",
                 column: "PermissionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SystemRolePermissions_SystemRoleId",
+                table: "SystemRolePermissions",
+                column: "SystemRoleId");
         }
 
         /// <inheritdoc />

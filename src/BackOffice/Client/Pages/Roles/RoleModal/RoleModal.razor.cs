@@ -10,7 +10,7 @@ namespace BackOffice.Client.Pages.Roles.RoleModal
     {
         private bool _isLoading;
         private bool _showPermissionsError;
-
+        [Parameter]
         public RoleModel Role { get; set; } = new();
         private EditContext _roleEditContext;
 

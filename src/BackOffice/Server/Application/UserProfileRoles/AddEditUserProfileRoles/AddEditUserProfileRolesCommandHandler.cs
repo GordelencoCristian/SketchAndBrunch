@@ -24,14 +24,35 @@ namespace BackOffice.Server.Application.UserProfileRoles.AddEditUserProfileRoles
             {
                 if (request.RoleModel.Id is not null)
                 {
-                    var systemRole = _appDbContext.SystemRoles.First(x => x.Id == request.RoleModel.Id);
+                    var systemRole = _appDbContext.SystemRoles
+                        .Include(x => x.SystemRolePermissions)
+                        .ThenInclude(x => x.Permission)
+                        .First(x => x.Id == request.RoleModel.Id);
+
+                    var existingPermissions = systemRole.SystemRolePermissions.ToList();
+                    _appDbContext.SystemRolePermissions.RemoveRange(existingPermissions);
+                    await _appDbContext.SaveChangesAsync(cancellationToken);
+
+                    // Add new permissions
+                    foreach (var permission in request.RoleModel.Permissions)
+                    {
+                        var systemRolePermission = new SystemRolePermissions
+                        {
+                            PermissionId = permission.Id,
+                            SystemRoleId = systemRole.Id
+                        };
+
+                        _appDbContext.SystemRolePermissions.Add(systemRolePermission);
+                    }
 
                     _mapper.Map(request.RoleModel, systemRole);
+
                     await _appDbContext.SaveChangesAsync(cancellationToken);
                     return systemRole.Id;
                 }
 
                 var mappedItem = _mapper.Map<SystemRole>(request.RoleModel);
+
                 _appDbContext.SystemRoles.Add(mappedItem);
                 await _appDbContext.SaveChangesAsync(cancellationToken);
 
