@@ -7,46 +7,41 @@
 
 <PageTitle>Login</PageTitle>
 
-<div class="box"
->
-    <div id="container"><div class="dot"></div></div>
-    
-    <div
-        Style="padding: 1rem 1rem; border-radius: 5px; @($"color: white; background:{Colors.Shades.Black};")"
-    >
-        <EditForm class="form-signin" OnValidSubmit="OnSubmit" Model="loginParameters">
-        <DataAnnotationsValidator />
+<div class="container d-flex justify-content-center align-items-center vh-100">
+    <div class="card shadow-lg p-4" style="width: 100%; max-width: 400px;">
+        <div class="card-body">
+            <h3 class="card-title text-center mb-4">Login</h3>
+            <EditForm Model="loginParameters" OnValidSubmit="OnSubmit">
+                <DataAnnotationsValidator />
 
-            <div class="form-floating mb-3" style="margin-top: 20px;">
-                <InputText id="inputUsername" class="input" @bind-Value="loginParameters.UserName" autofocus placeholder="Username" />
-                <label for="inputUsername" style="color: grey">Username</label>
-                <ValidationMessage For="@(() => loginParameters.UserName)" />
-            </div>
-
-            <div class="form-floating mb-3" style="margin-top: 20px;">
-                <InputText type="password" id="inputPassword" class="input" placeholder="Password" Style="@($"color:{Colors.Grey.Lighten1};")" @bind-Value="loginParameters.Password" />
-                <label for="inputPassword" style="color: grey">Password</label>
-
-                <ValidationMessage For="@(() => loginParameters.Password)" />
-            </div>
-
-            <div class="form-group mb-3">
-                <div class="form-check">
-                    <InputCheckbox id="inputRememberMe" class="form-check-input" @bind-Value="@loginParameters.RememberMe" />
-                    <label class="form-check-label" for="inputRememberMe" style="margin-top: 5px;">Remember me</label>
+                <div class="form-floating mb-3">
+                    <InputText id="inputUsername" class="form-control" @bind-Value="loginParameters.UserName" autofocus placeholder="Username" />
+                    <label for="inputUsername">Username</label>
+                    <ValidationMessage For="@(() => loginParameters.UserName)" class="text-danger" />
                 </div>
-            </div>
 
-            <div>
-                <button class="button-6" type="submit">Sign in</button>
-            </div>
+                <div class="form-floating mb-3">
+                    <InputText type="password" id="inputPassword" class="form-control" placeholder="Password" @bind-Value="loginParameters.Password" />
+                    <label for="inputPassword">Password</label>
+                    <ValidationMessage For="@(() => loginParameters.Password)" class="text-danger" />
+                </div>
 
-            <label class="text-danger">@error</label>
+                <div class="form-check mb-3">
+                    <InputCheckbox id="inputRememberMe" class="form-check-input" @bind-Value="loginParameters.RememberMe" />
+                    <label class="form-check-label" for="inputRememberMe">Remember me</label>
+                </div>
 
-            <NavLink href="register">
-                <h6 class="text-center" style="color: white;">Create account</h6>
-            </NavLink>
-        </EditForm>
+                <button type="submit" class="btn btn-primary w-100">Sign in</button>
+
+                <div class="text-danger mt-3">@error</div>
+
+                <hr class="my-4" />
+
+                <div class="text-center">
+                    <NavLink href="register" class="text-decoration-none">Create account</NavLink>
+                </div>
+            </EditForm>
+        </div>
     </div>
 </div>
 
@@ -68,4 +63,3 @@
         }
     }
 }
-
