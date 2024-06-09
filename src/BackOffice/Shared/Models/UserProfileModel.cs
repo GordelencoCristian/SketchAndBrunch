@@ -6,7 +6,7 @@ namespace BackOffice.Shared.Models
 {
     public class UserProfileModel
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
         public int? Number { get; set; }
 
         [Required]
@@ -33,7 +33,6 @@ namespace BackOffice.Shared.Models
         [Required]
         public RoleModel Role { get; set; }
 
-        [Required]
         public CountryModel? Country { get; set; }
 
         //public SelectItem<int> Role { get; set; }

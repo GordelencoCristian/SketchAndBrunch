@@ -1,5 +1,7 @@
 ﻿using BackOffice.Server.Application.UserProfile.AddUserProfile;
+using BackOffice.Server.Application.UserProfile.DeleteUserProfile;
 using BackOffice.Server.Application.UserProfile.GetUserProfiles;
+using BackOffice.Server.Application.UserProfileRoles.DeleteUserProfileRoles;
 using BackOffice.Shared.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -27,6 +29,12 @@ namespace BackOffice.Server.Controllers
         public async Task<List<UserProfileModel>> GetUserProfiles()
         {
             return await _sender.Send(new GetUserProfilesQuery());
+        }
+
+        [HttpPost]
+        public async Task<int> DeleteUserProfile([FromBody] int userId)
+        {
+            return await _sender.Send(new DeleteUserProfileCommand(userId));
         }
     }
 }

@@ -29,5 +29,16 @@ namespace BackOffice.Client.Services.Implementation
             if (result != null) return result;
             throw new NullReferenceException("Null Reference");
         }
+
+        public async Task<int> DeleteUserProfileRole(int? userId)
+        {
+            var response = await _httpClient.PostAsJsonAsync("api/UserProfile/DeleteUserProfile", userId);
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.ReadFromJsonAsync<int>();
+            }
+
+            throw new HttpRequestException($"Failed to add/edit role permissions: {response.ReasonPhrase}");
+        }
     }
 }

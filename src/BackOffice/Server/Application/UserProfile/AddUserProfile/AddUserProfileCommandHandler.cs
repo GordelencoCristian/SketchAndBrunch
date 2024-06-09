@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Persistance.Contexts;
+using Persistance.Entities;
 
 namespace BackOffice.Server.Application.UserProfile.AddUserProfile
 {
@@ -21,6 +23,19 @@ namespace BackOffice.Server.Application.UserProfile.AddUserProfile
         {
             try
             {
+                if (request.UserProfileModel.Id is not null)
+                {
+                    var userProfile = await _appDbContext.UserProfiles
+                        .Include(x => x.SystemRole)
+                        .FirstOrDefaultAsync(x => x.Id == request.UserProfileModel.Id, cancellationToken: cancellationToken);
+
+
+                    _mapper.Map(request.UserProfileModel, userProfile);
+
+                    await _appDbContext.SaveChangesAsync(cancellationToken);
+                    return userProfile.Id;
+                }
+
                 var mappedItem = _mapper.Map<Persistance.Entities.UserProfile>(request.UserProfileModel);
 
                 _appDbContext.UserProfiles.Add(mappedItem);
