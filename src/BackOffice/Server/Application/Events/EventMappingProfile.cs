@@ -19,7 +19,6 @@ namespace BackOffice.Server.Application.Events
             CreateMap<EventLocation, LocationModel>();
 
             CreateMap<LocationModel, EventLocation>();
-
         }
     }
 }

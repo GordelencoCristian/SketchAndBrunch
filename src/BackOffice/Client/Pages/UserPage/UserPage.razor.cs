@@ -24,15 +24,11 @@ namespace BackOffice.Client.Pages.UserPage
 
         private async Task ShowModal(string title, DialogParameters<AddUserModal.AddUserModal>? parameters = null)
         {
-            ConsoleLog.LogAsJson("OpenModal");
-
             var dialog = parameters == null
                 ? await DialogService.ShowAsync<AddUserModal.AddUserModal>(title, _modalOptions)
                 : await DialogService.ShowAsync<AddUserModal.AddUserModal>(title, parameters, _modalOptions);
 
             var result = await dialog.Result;
-
-            ConsoleLog.LogAsJson("CloseModalResult:", result);
 
             if (!result.Canceled)
             {

@@ -37,7 +37,6 @@ namespace BackOffice.Client.Pages.UserPage.AddUserModal
             StateHasChanged();
 
             RoleList = await RoleService.GetUserProfileRoles();
-            ConsoleLog.LogAsJson("UserProfile:", UserProfileModel);
             _userProfileEditContext = new EditContext(UserProfileModel);
 
             _isLoading = false;
@@ -59,16 +58,11 @@ namespace BackOffice.Client.Pages.UserPage.AddUserModal
         private async Task ValidateContext()
         {
             var isValid = _userProfileEditContext != null && _userProfileEditContext.Validate();
-            ConsoleLog.LogAsJson("isValid:", isValid);
-            ConsoleLog.LogAsJson("isValid:", _userProfileEditContext.GetValidationMessages());
 
             if (isValid)
             {
                 //UserProfileModel.AvatarBase64 = _uploadAvatarComponent.GetBase64Image();
-
-                ConsoleLog.LogAsJson("UserToAdd:", UserProfileModel);
                 await UserProfileService.AddEditUserProfile(UserProfileModel);
-                ConsoleLog.LogAsJson("AddEditUserProfile:");
 
                 Submit();
             }

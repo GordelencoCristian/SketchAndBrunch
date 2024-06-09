@@ -1,0 +1,59 @@
+﻿@using BackOffice.Client.Services
+@using BackOffice.Shared.Models
+
+@inject IEventService EventService;
+@inject IUserProfileService UserProfileService;
+@inject IRequestService RequestService;
+
+<MudDialog>
+    <DialogContent>
+        <EditForm EditContext="@_RequestEditContext" OnSubmit="ValidateContext">
+            <DataAnnotationsValidator />
+            <MudItem>
+                <MudCard Elevation="0">
+                    @if (_isLoading)
+                    {
+                        <MudProgressLinear Color="Color.Primary" Indeterminate="true" Class="my-7" />
+                    }
+                    else
+                    {
+                        <MudCardContent>
+                          @*   <MudTextField Label="Location Name" @bind-Value="Event.Name" For="@(() => Event.Name)" />
+                            <MudTextField Label="NumberOfparticipants" @bind-Value="Event.NumberOfparticipants" For="@(() => Event.NumberOfparticipants)" />
+                            <MudTextField Label="EventTime" HelperText="Event Time" Format="yyyy-MM-dd" Class="mt-4"
+                                          @bind-Value="Event.EventTime" For="@(() => Event.EventTime)" InputType="InputType.Date" selec />
+                            <MudTextField Label="Description" @bind-Value="Event.Description" For="@(() => Event.Description)" /> *@
+                          <MudSelect T="EventModel" Label="Events" Error="_showEventsError"
+                                     ErrorText="Should be selected Event"
+                                     ToStringFunc="@eventConverter"
+                                     Class="mt-6"
+                                     OnOpen="OnMudEventSelectChanged"
+                                     @bind-Value="Request.Event">
+                              @foreach (var eventModel in Events)
+                              {
+                                  <MudSelectItem T="EventModel" Value="@eventModel">@eventModel.Name</MudSelectItem>
+                              }
+                          </MudSelect>
+                          <MudSelect T="UserProfileModel" Label="Users" Error="_showUsersError"
+                                     ErrorText="Should be selected an user"
+                                     ToStringFunc="@userConverter"
+                                     Class="mt-6"
+                                       OnOpen="OnMudUserSelectChanged"
+                                     @bind-Value="Request.UserProfile">
+                              @foreach (var userProfileModel in Users)
+                              {
+                                  <MudSelectItem T="UserProfileModel" Value="@userProfileModel">@userProfileModel.FirstName @userProfileModel.LastName</MudSelectItem>
+                              }
+                          </MudSelect>
+                        </MudCardContent>
+                    }
+                </MudCard>
+            </MudItem>
+        </EditForm>
+
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Primary" OnClick="ValidateContext">Ok</MudButton>
+    </DialogActions>
+</MudDialog>

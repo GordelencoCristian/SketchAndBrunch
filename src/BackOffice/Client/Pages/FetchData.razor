@@ -41,7 +41,6 @@ else
     protected override async Task OnInitializedAsync()
     {
         curreUserInfo = await authStateProvider.GetUserInfo();
-        ConsoleLog.LogAsJson("User:", curreUserInfo);
         forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("WeatherForecast");
     }
 }
