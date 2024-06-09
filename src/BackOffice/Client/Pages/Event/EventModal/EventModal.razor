@@ -1,0 +1,47 @@
+﻿@using BackOffice.Client.Services
+@using BackOffice.Shared.Models
+
+@inject IEventService EventService;
+@inject ILocationService LocationService;
+
+<MudDialog>
+    <DialogContent>
+        <EditForm EditContext="@_eventEditContext" OnSubmit="ValidateContext">
+            <DataAnnotationsValidator />
+            <MudItem>
+                <MudCard Elevation="0">
+                    @if (_isLoading)
+                    {
+                        <MudProgressLinear Color="Color.Primary" Indeterminate="true" Class="my-7" />
+                    }
+                    else
+                    {
+                        <MudCardContent>
+                            <MudTextField Label="Location Name" @bind-Value="Event.Name" For="@(() => Event.Name)" />
+                            <MudTextField Label="NumberOfparticipants" @bind-Value="Event.NumberOfparticipants" For="@(() => Event.NumberOfparticipants)" />
+                            <MudTextField Label="EventTime" HelperText="Event Time" Format="yyyy-MM-dd" Class="mt-4"
+                                          @bind-Value="Event.EventTime" For="@(() => Event.EventTime)" InputType="InputType.Date" selec />
+                            <MudTextField Label="Description" @bind-Value="Event.Description" For="@(() => Event.Description)" />
+                            <MudSelect T="LocationModel" Label="Locations" Error="_showLocationsError"
+                                       ErrorText="Should be selected Location"
+                                       ToStringFunc="@converter"
+                                       Class="mt-6"
+                                       OnOpen="OnMudSelectChanged"
+                                       @bind-Value="Event.Location">
+                                @foreach (var state in Locations)
+                                {
+                                    <MudSelectItem T="LocationModel" Value="@state">@state.Name (@state.Adress)</MudSelectItem>
+                                }
+                            </MudSelect>
+                        </MudCardContent>
+                    }
+                </MudCard>
+            </MudItem>
+        </EditForm>
+
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Primary" OnClick="ValidateContext">Ok</MudButton>
+    </DialogActions>
+</MudDialog>

@@ -22,7 +22,7 @@ namespace BackOffice.Client.Services.Implementation
                 return await response.Content.ReadFromJsonAsync<Unit>();
             }
 
-            throw new HttpRequestException($"Failed to add/edit role permissions: {response.ReasonPhrase}");
+            throw new HttpRequestException($"Failed to add/edit location: {response.ReasonPhrase}");
         }
 
         public async Task<Unit> DeleteLocation(int locationId)
@@ -33,7 +33,7 @@ namespace BackOffice.Client.Services.Implementation
                 return await response.Content.ReadFromJsonAsync<Unit>();
             }
 
-            throw new HttpRequestException($"Failed to add/edit role permissions: {response.ReasonPhrase}");
+            throw new HttpRequestException($"Failed to delete location: {response.ReasonPhrase}");
         }
 
         public async Task<List<LocationModel>> GetLocations()

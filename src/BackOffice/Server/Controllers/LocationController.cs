@@ -31,7 +31,7 @@ namespace BackOffice.Server.Controllers
         }
 
         [HttpPost("delete")]
-        public async Task<Unit> GetLocations([FromBody] int locationId)
+        public async Task<Unit> DeleteLocation([FromBody] int locationId)
         {
             return await _sender.Send(new DeleteLocationCommand(locationId));
         }
