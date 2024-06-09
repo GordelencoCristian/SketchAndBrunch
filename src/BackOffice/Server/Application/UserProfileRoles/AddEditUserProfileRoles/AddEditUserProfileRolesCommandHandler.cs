@@ -70,8 +70,8 @@ namespace BackOffice.Server.Application.UserProfileRoles.AddEditUserProfileRoles
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                    Console.WriteLine(e);
+                    throw;
             }
         }
     }

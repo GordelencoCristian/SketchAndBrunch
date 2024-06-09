@@ -19,6 +19,8 @@ namespace Persistance.Contexts
         public DbSet<SystemRole> SystemRoles { set; get; }
         public DbSet<Permission> Permissions { set; get; }
         public DbSet<SystemRolePermissions> SystemRolePermissions { set; get; }
+        public DbSet<Event> Events { set; get; }
+        public DbSet<EventLocation> EventLocations { set; get; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

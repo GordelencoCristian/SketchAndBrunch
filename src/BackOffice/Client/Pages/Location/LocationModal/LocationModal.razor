@@ -1,0 +1,31 @@
+﻿@using BackOffice.Client.Services
+
+@inject ILocationService LocationService;
+
+<MudDialog>
+    <DialogContent>
+        <EditForm EditContext="@_locationEditContext" OnSubmit="ValidateContext">
+            <DataAnnotationsValidator/>
+            <MudItem >
+                <MudCard Elevation="0">
+                    @if (_isLoading)
+                    {
+                        <MudProgressLinear Color="Color.Primary" Indeterminate="true" Class="my-7" />
+                    }
+                    else
+                    {
+                        <MudCardContent>
+                            <MudTextField Label="Location Name" @bind-Value="Location.Name" For="@(() => Location.Name)"/>
+                            <MudTextField Label="Adress" @bind-Value="Location.Adress" For="@(() => Location.Adress)"/>
+                        </MudCardContent>
+                    }
+                </MudCard>
+            </MudItem>
+        </EditForm>
+
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Primary" OnClick="ValidateContext">Ok</MudButton>
+    </DialogActions>
+</MudDialog>

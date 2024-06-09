@@ -17,6 +17,7 @@ builder.Services.AddScoped<IAuthorizeApi, AuthorizeApi>();
 builder.Services.AddScoped<IUserProfilePermissionsRoleService, UserProfilePermissionsRoleService>();
 builder.Services.AddScoped<IUserProfileService, UserProfileService>();
 builder.Services.AddScoped<INotificationService, NotificationService>();
+builder.Services.AddScoped<ILocationService, LocationService>();
 
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 builder.Services.AddMudServices();

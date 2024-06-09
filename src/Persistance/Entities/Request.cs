@@ -1,4 +1,5 @@
-﻿using Persistance.TrackingEntity;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using Persistance.TrackingEntity;
 
 namespace Persistance.Entities
 {
@@ -9,5 +10,10 @@ namespace Persistance.Entities
 
         public int UserProfileId { get; set; }
         public UserProfile UserProfile { get; set; }
+
+        public int? EventId { get; set; }
+
+        [ForeignKey(nameof(EventId))]
+        public Event? Event { get; set; }
     }
 }
