@@ -20,24 +20,7 @@ namespace BackOffice.Client.Pages.UserPage.AddUserModal
 
         //private UploadAvatar.UploadAvatar _uploadAvatarComponent;
 
-        public List<RoleModel> RoleList = new()
-        {
-            //new()
-            //{
-            //    Name = "Administrator",
-            //    Id = 1
-            //},
-            //new()
-            //{
-            //    Name = "User",
-            //    Id = 2
-            //},
-            //new()
-            //{
-            //    Name = "Person",
-            //    Id = 3
-            //},
-        };
+        public List<RoleModel> RoleList = new();
 
         public List<CountryModel> CountryList = new()
         {
@@ -54,12 +37,17 @@ namespace BackOffice.Client.Pages.UserPage.AddUserModal
             StateHasChanged();
 
             RoleList = await RoleService.GetUserProfileRoles();
+            ConsoleLog.LogAsJson("UserProfile:", UserProfileModel);
             _userProfileEditContext = new EditContext(UserProfileModel);
 
             _isLoading = false;
             StateHasChanged();
         }
 
+        string GetRoleName()
+        {
+            return UserProfileModel?.Role?.Name ?? String.Empty;
+        }
         void Submit() => MudDialog.Close(DialogResult.Ok(true));
         void Cancel() => MudDialog.Cancel();
 
@@ -70,17 +58,21 @@ namespace BackOffice.Client.Pages.UserPage.AddUserModal
 
         private async Task ValidateContext()
         {
-            //_form.Validate();
             var isValid = _userProfileEditContext != null && _userProfileEditContext.Validate();
+            ConsoleLog.LogAsJson("isValid:", isValid);
+            ConsoleLog.LogAsJson("isValid:", _userProfileEditContext.GetValidationMessages());
 
             if (isValid)
             {
-                Submit();
                 //UserProfileModel.AvatarBase64 = _uploadAvatarComponent.GetBase64Image();
+
                 ConsoleLog.LogAsJson("UserToAdd:", UserProfileModel);
                 await UserProfileService.AddEditUserProfile(UserProfileModel);
+                ConsoleLog.LogAsJson("AddEditUserProfile:");
 
-            } else return;
+                Submit();
+            }
+            else return;
         }
 
 

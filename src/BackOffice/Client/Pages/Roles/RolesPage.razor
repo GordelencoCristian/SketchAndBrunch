@@ -177,8 +177,6 @@
             return true;
         if (element.Name.Contains(searchString, StringComparison.OrdinalIgnoreCase))
             return true;
-        if (element.Number.HasValue && element.Number.Value == int.Parse(searchString))
-            return true;
         return false;
     }
 

@@ -6,5 +6,6 @@ namespace BackOffice.Client.Services
     {
         Task<int> AddEditUserProfile(UserProfileModel userProfileModel);
         Task<List<UserProfileModel>> GetUserProfiles();
+        Task<int> DeleteUserProfileRole(int? userId);
     }
 }

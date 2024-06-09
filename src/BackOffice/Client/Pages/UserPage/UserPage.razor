@@ -10,7 +10,7 @@
 <div class="d-flex justify-end flex-grow-1 gap-4 pb-2">
     <MudButton
         Variant="Variant.Filled"
-        OnClick="@(_ => OpenModal(_modalOptions))"
+        OnClick="@(_ => OpenModal(null))"
         StartIcon="@Icons.Material.Filled.PersonAdd"
         Color="Color.Dark">
         Add User
@@ -23,13 +23,6 @@
             <MudTextField @bind-Value="searchString1" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Small" Class="mt-0"></MudTextField>
         </div>
     </ToolBarContent>
-   @*  <ColGroup>
-        <col style="width: 60px;" />
-        <col />
-        <col style="width: 60%;" />
-        <col style="width: 60px;" />
-        <col />
-    </ColGroup> *@
     <HeaderContent>
         <MudTh>Nr.</MudTh>
         <MudTh>FirstName</MudTh>
@@ -50,8 +43,10 @@
         <MudTd DataLabel="PhoneNumber">@context.PhoneNumber</MudTd>
         <MudTd>
             <MudMenu Icon="@Icons.Material.Filled.MoreVert" Size="Size.Small">
-                <MudMenuItem><MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" Size="Size.Small" OnClick="() => OpenModal(context)" /></MudMenuItem>
-                <MudMenuItem><MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" Size="Size.Small" OnClick="() => DeleteUser(context)" /></MudMenuItem>
+                <MudMenuItem Icon="@Icons.Material.Filled.Edit" IconColor="Color.Primary" IconSize="Size.Small" OnClick="() => OpenModal(context)">
+                </MudMenuItem>
+                <MudMenuItem Icon="@Icons.Material.Filled.Delete" IconColor="Color.Error" IconSize="Size.Small" OnClick="() => DeleteUser(context)">
+                </MudMenuItem>
             </MudMenu>
         </MudTd>
     </RowTemplate>
@@ -83,7 +78,6 @@
     private bool bordered = false;
     private string searchString1 = "";
     private UserProfileModel selectedUser1 = null;
-    // private HashSet<Element> selectedItems = new HashSet<Element>();
 
     private static IEnumerable<UserProfileModel> _userProfiles = new List<UserProfileModel>();
 
@@ -102,7 +96,6 @@
               _isLoading = false;
               StateHasChanged();
           }
-        ConsoleLog.LogAsJson("Users:", _userProfiles);
     }
 
     async Task OnRowClick(TableRowClickEventArgs<UserProfileModel> args)
@@ -124,17 +117,15 @@
             return true;
         if (element.Role.Name.Contains(searchString, StringComparison.OrdinalIgnoreCase))
             return true;
-        if (element.Number.HasValue && element.Number.Value == int.Parse(searchString))
-            return true;
         return false;
     }
 
     private async Task DeleteUser(UserProfileModel? user)
     {
-        // if (role != null)
-        // {
-        //     await RoleService.DeleteUserProfileRole(role.Id.Value);
-        //     await OnInitializedAsync();
-        // }
+        if (user != null)
+        {
+            await UserProfileService.DeleteUserProfileRole(user.Id);
+            await OnInitializedAsync();
+        }
     }
 }

@@ -9,11 +9,6 @@ namespace BackOffice.Client.Pages.UserPage
     {
         readonly DialogOptions _modalOptions = new() { CloseButton = true };
 
-        private void OpenModal(DialogOptions options)
-        {
-            DialogService.Show<AddUserModal.AddUserModal>("Add user", options);
-        }
-
         private async Task OpenModal(UserProfileModel? userProfile)
         {
             if (userProfile == null)
@@ -29,11 +24,15 @@ namespace BackOffice.Client.Pages.UserPage
 
         private async Task ShowModal(string title, DialogParameters<AddUserModal.AddUserModal>? parameters = null)
         {
+            ConsoleLog.LogAsJson("OpenModal");
+
             var dialog = parameters == null
                 ? await DialogService.ShowAsync<AddUserModal.AddUserModal>(title, _modalOptions)
                 : await DialogService.ShowAsync<AddUserModal.AddUserModal>(title, parameters, _modalOptions);
 
             var result = await dialog.Result;
+
+            ConsoleLog.LogAsJson("CloseModalResult:", result);
 
             if (!result.Canceled)
             {

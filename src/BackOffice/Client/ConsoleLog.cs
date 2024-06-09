@@ -9,5 +9,10 @@ namespace BackOffice.Client
             var json = JsonSerializer.Serialize(obj, new JsonSerializerOptions { WriteIndented = true });
             Console.WriteLine($"{logName} {json}");
         }
+
+        public static void LogAsJson(string logName)
+        {
+            Console.WriteLine($"{logName}");
+        }
     }
 }
