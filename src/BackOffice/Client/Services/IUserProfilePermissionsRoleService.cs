@@ -7,5 +7,6 @@ namespace BackOffice.Client.Services
         Task<List<PermissionsModel>> GetRolePermissions();
         Task<int> AddEditRolePermissions(RoleModel roleModel);
         Task<List<RoleModel>> GetUserProfileRoles();
+        Task<int> DeleteUserProfileRole(int roleId);
     }
 }

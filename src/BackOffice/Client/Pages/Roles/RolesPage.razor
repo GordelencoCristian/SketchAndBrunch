@@ -81,7 +81,7 @@
         <MudTd>
             <MudMenu Icon="@Icons.Material.Filled.MoreVert" Size="Size.Small">
                 <MudMenuItem><MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" Size="Size.Small" OnClick="() => OpenModal(context)" /></MudMenuItem>
-                <MudMenuItem><MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" Size="Size.Small" /></MudMenuItem>
+                <MudMenuItem><MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" Size="Size.Small" OnClick="() => DeleteRole(context)" /></MudMenuItem>
             </MudMenu>
         </MudTd>
     </RowTemplate>
@@ -160,6 +160,14 @@
         }
     }
 
+    private async Task DeleteRole(RoleModel? role)
+    {
+        if (role != null)
+        {
+            await RoleService.DeleteUserProfileRole(role.Id.Value);
+            await OnInitializedAsync();
+        }
+    }
 
     private bool FilterFunc1(RoleModel role) => FilterFunc(role, searchString1);
 

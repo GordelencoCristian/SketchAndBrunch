@@ -6,6 +6,9 @@ namespace BackOffice.Shared.Models
 {
     public class UserProfileModel
     {
+        public int Id { get; set; }
+        public int? Number { get; set; }
+
         [Required]
         [EmailAddress]
         public string Email { get; set; }
@@ -35,6 +38,6 @@ namespace BackOffice.Shared.Models
 
         //public SelectItem<int> Role { get; set; }
 
-        public string AvatarBase64 { get; set; }
+        public string? AvatarBase64 { get; set; }
     }
 }

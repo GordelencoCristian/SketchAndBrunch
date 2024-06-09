@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using MudBlazor;
+using BackOffice.Client.Pages.UserPage.AddUserModal.UploadAvatar;
 using SharedData.Models.Reference;
 using System.Globalization;
 using System.Linq;
@@ -10,9 +11,14 @@ namespace BackOffice.Client.Pages.UserPage.AddUserModal
 {
     public partial class AddUserModal : ComponentBase
     {
-        public UserProfileModel Model { get; set; } = new();
+        private bool _isLoading = false;
+
+        [Parameter]
+        public UserProfileModel UserProfileModel { get; set; } = new();
 
         private EditContext? _userProfileEditContext;
+
+        //private UploadAvatar.UploadAvatar _uploadAvatarComponent;
 
         public List<RoleModel> RoleList = new()
         {
@@ -40,9 +46,18 @@ namespace BackOffice.Client.Pages.UserPage.AddUserModal
         };
 
         [CascadingParameter] MudDialogInstance MudDialog { get; set; }
-        protected override void OnInitialized()
+      
+
+        protected override async Task OnInitializedAsync()
         {
-            _userProfileEditContext = new EditContext(Model);
+            _isLoading = true;
+            StateHasChanged();
+
+            RoleList = await RoleService.GetUserProfileRoles();
+            _userProfileEditContext = new EditContext(UserProfileModel);
+
+            _isLoading = false;
+            StateHasChanged();
         }
 
         void Submit() => MudDialog.Close(DialogResult.Ok(true));
@@ -50,15 +65,22 @@ namespace BackOffice.Client.Pages.UserPage.AddUserModal
 
         void SelectValueChanged()
         {
-            if (Model.Country != null) Model.PhoneNumber = Model.Country.PhoneCode;
+            if (UserProfileModel.Country != null) UserProfileModel.PhoneNumber = UserProfileModel.Country.PhoneCode;
         }
 
-        private void ValidateContext()
+        private async Task ValidateContext()
         {
             //_form.Validate();
             var isValid = _userProfileEditContext != null && _userProfileEditContext.Validate();
 
-            if (isValid) { Submit();} else return;
+            if (isValid)
+            {
+                Submit();
+                //UserProfileModel.AvatarBase64 = _uploadAvatarComponent.GetBase64Image();
+                ConsoleLog.LogAsJson("UserToAdd:", UserProfileModel);
+                await UserProfileService.AddEditUserProfile(UserProfileModel);
+
+            } else return;
         }
 
 
@@ -69,10 +91,10 @@ namespace BackOffice.Client.Pages.UserPage.AddUserModal
 
         string GetPhoneNumberHelperText()
         {
-            return Model.Country?.Code switch
+            return UserProfileModel.Country?.Code switch
             {
-                "MD" => $"{Model.Country?.PhoneCode} - (xx) - xxx - xxx",
-                "RO" => $"{Model.Country?.PhoneCode} - (xxx) - xxx - xxx",
+                "MD" => $"{UserProfileModel.Country?.PhoneCode} - (xx) - xxx - xxx",
+                "RO" => $"{UserProfileModel.Country?.PhoneCode} - (xxx) - xxx - xxx",
                 _ => string.Empty
             };
         }

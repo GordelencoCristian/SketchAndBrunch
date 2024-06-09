@@ -1,27 +1,37 @@
 ﻿@using BackOffice.Client.Pages.UserPage.AddUserModal.UploadAvatar
+@using BackOffice.Client.Services
+@using BackOffice.Client.Services.Implementation
 @using BackOffice.Shared.Models
 @using SharedData.Models.Reference
+@inject IUserProfilePermissionsRoleService RoleService;
+@inject IUserProfileService UserProfileService;
 
-<MudDialog>
-    <DialogContent>
-        <EditForm EditContext="@_userProfileEditContext" OnSubmit="() => ValidateContext()">
-            <DataAnnotationsValidator/>
+@if (_isLoading)
+{
+    <MudProgressLinear Color="Color.Primary" Indeterminate="true"  />
+}
+else
+{
+    <MudDialog>
+        <DialogContent>
+            <EditForm EditContext="@_userProfileEditContext" OnSubmit="() => ValidateContext()">
+                <DataAnnotationsValidator />
                 <MudItem>
                     <MudCard Elevation="0">
                         <MudCardContent>
                             <MudTextField Label="First name"
-                                          @bind-Value="Model.FirstName" For="@(() => Model.FirstName)"/>
+                                          @bind-Value="UserProfileModel.FirstName" For="@(() => UserProfileModel.FirstName)" />
                             <MudTextField Label="Last name"
-                                          @bind-Value="Model.LastName" For="@(() => Model.LastName)"/>
+                                          @bind-Value="UserProfileModel.LastName" For="@(() => UserProfileModel.LastName)" />
                             <MudTextField Label="Email" HelperText="sisbrinfo@gmail.com" Class="mt-3"
-                                          @bind-Value="Model.Email" For="@(() => Model.Email)"/>
+                                          @bind-Value="UserProfileModel.Email" For="@(() => UserProfileModel.Email)" />
 
                             <MudTextField Label="Birthday" HelperText="Birthday date" Format="yyyy-MM-dd" Class="mt-4"
-                                          @bind-Value="Model.BirthDay" For="@(() => Model.BirthDay)" InputType="InputType.Date"/>
+                                          @bind-Value="UserProfileModel.BirthDay" For="@(() => UserProfileModel.BirthDay)" InputType="InputType.Date" />
 
                             <MudGrid>
                                 <MudItem xs="4">
-                                    <MudSelect For="@(() => Model.Country)" T="CountryModel" SelectedValuesChanged="SelectValueChanged" @bind-Value="@Model.Country" Class="mt-4" Label="Country">
+                                    <MudSelect For="@(() => UserProfileModel.Country)" T="CountryModel" SelectedValuesChanged="SelectValueChanged" @bind-Value="@UserProfileModel.Country" Class="mt-4" Label="Country">
                                         @foreach (var item in CountryList)
                                         {
                                             <MudSelectItem Value="@item"><img src="@item.IconPath" height="14" width="14" class="mr-1" alt="Republic of Moldova"> @item.Name</MudSelectItem>
@@ -29,11 +39,11 @@
                                     </MudSelect>
                                 </MudItem>
                                 <MudItem xs="8">
-                                    <MudTextField Adornment="Adornment.Start" Disabled="Model.Country is null" IconSize="Size.Small" AdornmentIcon="@Icons.Material.Filled.Phone" Label="Phone" HelperText="@GetPhoneNumberHelperText()" Class="mt-4"
-                                                  @bind-Value="Model.PhoneNumber" For="@(() => Model.PhoneNumber)" InputType="InputType.Telephone"/>
+                                    <MudTextField Adornment="Adornment.Start" Disabled="UserProfileModel.Country is null" IconSize="Size.Small" AdornmentIcon="@Icons.Material.Filled.Phone" Label="Phone" HelperText="@GetPhoneNumberHelperText()" Class="mt-4"
+                                                  @bind-Value="UserProfileModel.PhoneNumber" For="@(() => UserProfileModel.PhoneNumber)" InputType="InputType.Telephone" />
                                 </MudItem>
                             </MudGrid>
-                            <MudSelect For="@(() => Model.Role)" T="RoleModel" @bind-Value="Model.Role" Label="Select Role" Validation="@_userProfileEditContext" Placeholder="Please Select Role" Class="mt-6">
+                            <MudSelect For="@(() => UserProfileModel.Role)" T="RoleModel" @bind-Value="UserProfileModel.Role" Label="Select Role" Validation="@_userProfileEditContext" Placeholder="Please Select Role" Class="mt-6">
                                 @foreach (var item in RoleList)
                                 {
                                     <MudSelectItem Value="@item">@item.Name</MudSelectItem>
@@ -42,16 +52,19 @@
                         </MudCardContent>
                     </MudCard>
                 </MudItem>
-        </EditForm>
-           
-        <MudCard Class="pa-4 align-start d-flex mb-4 border-dashed border-2 mud-border-primary" Elevation="0">
-            <UploadAvatar></UploadAvatar>
-        </MudCard>
+            </EditForm>
 
-    </DialogContent>
-    <DialogActions>
-        <MudButton OnClick="Cancel">Cancel</MudButton>
-        <MudButton Color="Color.Primary" OnClick="ValidateContext">Ok</MudButton>
-    </DialogActions>
-</MudDialog>
+            <MudCard Class="pa-4 align-start d-flex mb-4 border-dashed border-2 mud-border-primary" Elevation="0">
+                <UploadAvatar ></UploadAvatar>
+            </MudCard>
+
+        </DialogContent>
+        <DialogActions>
+            <MudButton OnClick="Cancel">Cancel</MudButton>
+            <MudButton Color="Color.Primary" OnClick="ValidateContext">Ok</MudButton>
+        </DialogActions>
+    </MudDialog>
+
+
+}
 

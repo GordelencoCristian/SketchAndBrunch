@@ -10,7 +10,10 @@ namespace BackOffice.Client.Pages.UserPage.AddUserModal.UploadAvatar
         private FileModel _uploadFile = new();
         private bool _showAvatar;
         private long _maxAllowedSize = 2048000;
-        private string GetBase64Image() => $"data:image/jpeg;base64,{_uploadFile.Base64Content}";
+
+        [Parameter] public string AvatarBase64 { get; set; }
+
+        public string GetBase64Image() => $"data:image/jpeg;base64,{_uploadFile.Base64Content}";
 
         private void DeleteSelectedFile()
         {

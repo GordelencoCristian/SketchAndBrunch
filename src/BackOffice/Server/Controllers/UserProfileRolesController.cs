@@ -1,4 +1,5 @@
 ﻿using BackOffice.Server.Application.UserProfileRoles.AddEditUserProfileRoles;
+using BackOffice.Server.Application.UserProfileRoles.DeleteUserProfileRoles;
 using BackOffice.Server.Application.UserProfileRoles.GetRolePermissions;
 using BackOffice.Server.Application.UserProfileRoles.GetRoles;
 using BackOffice.Shared.Models;
@@ -34,6 +35,12 @@ namespace BackOffice.Server.Controllers
         public async Task<List<RoleModel>> GetUserProfileRoles()
         {
             return await _sender.Send(new GetRolesQuery());
+        }
+
+        [HttpPost]
+        public async Task<int> DeleteUserProfileRole([FromBody] int roleId)
+        {
+            return await _sender.Send(new DeleteUserProfileRolesCommand(roleId));
         }
     }
 }
