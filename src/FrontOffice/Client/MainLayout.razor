@@ -1,5 +1,52 @@
 ﻿@inherits LayoutComponentBase
 
-<main>
-    @Body
-</main>
+<MudThemeProvider Theme="_myCustomTheme" @bind-IsDarkMode="@_isDarkMode" />
+<MudDialogProvider FullWidth="true"
+                   CloseButton="true"
+                   DisableBackdropClick="false"
+                   NoHeader="false"
+                   Position="DialogPosition.Center"
+                   CloseOnEscapeKey="true" />
+
+<MudSnackbarProvider />
+<MudLayout>
+    <MudAppBar Style="background-color: #27272f" Elevation="1">
+        @* @if (!_drawerOpen)
+        {
+            <MudImage Src="Icons\sb_white.svg" Style="height: 2.5rem;" Alt="Logo" Class="rounded-sm ma-4"/>
+        } *@
+        <MudImage Src="Icons\sb_white.svg" Style="height: 2.5rem;" Alt="Logo" Class="rounded-sm ma-4"/>
+
+        <MudSpacer/>
+        <MudIconButton Icon="@(_isDarkMode ? Icons.Material.Filled.WbSunny : Icons.Material.Filled.ShieldMoon)" OnClick="@(ChangeToDarkMode)" Color="Color.Inherit" Target="_blank"/>
+        @* <MudIconButton Icon="@Icons.Material.Filled.AccountBox" OnClick="@(OpenDrawer)" Color="Color.Inherit" Target="_blank"/> *@
+    </MudAppBar>
+    <MudMainContent>
+        @Body
+    </MudMainContent>
+</MudLayout>
+
+@code
+{
+    bool _isDarkMode;
+
+    readonly MudTheme _myCustomTheme = new()
+    {
+        Palette = new PaletteLight
+        {
+            Primary = Colors.Blue.Default,
+            Secondary = Colors.Green.Accent4,
+            AppbarBackground = Colors.Red.Default
+        },
+        PaletteDark = new PaletteDark
+        {
+            Primary = Colors.Blue.Lighten1
+        },
+    };
+
+    void ChangeToDarkMode()
+    {
+        _isDarkMode = !_isDarkMode;
+        StateHasChanged();
+    }
+}

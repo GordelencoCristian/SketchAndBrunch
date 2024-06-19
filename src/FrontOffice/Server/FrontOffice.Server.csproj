@@ -11,8 +11,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Persistance\Persistance.csproj" />
+    <ProjectReference Include="..\..\SharedData\SharedData.csproj" />
     <ProjectReference Include="..\Client\FrontOffice.Client.csproj" />
     <ProjectReference Include="..\Shared\FrontOffice.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Application\" />
   </ItemGroup>
 
 </Project>

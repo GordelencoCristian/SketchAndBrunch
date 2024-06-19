@@ -16,6 +16,7 @@ namespace BackOffice.Server.Application.Requests
                 .ForMember(x => x.Id, opts => opts.Ignore())
                 .ForMember(dest => dest.UserProfileId, opt => opt.MapFrom(src => src.UserProfile.Id))
                 .ForMember(dest => dest.UserProfile, opt => opt.Ignore())
+                .ForMember(dest => dest.ApplicationDateTime, opt => opt.MapFrom(x => DateTime.Now))
                 .ForMember(dest => dest.EventId, opt => opt.MapFrom(src => src.Event.Id))
                 .ForMember(dest => dest.Event, opt => opt.Ignore());
             ;
