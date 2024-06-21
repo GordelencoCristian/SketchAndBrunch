@@ -22,7 +22,17 @@ namespace BackOffice.Client.Services.Implementation
             }
 
             throw new HttpRequestException($"Failed to add/edit request: {response.ReasonPhrase}");
+        }
 
+        public async Task<int> ChangeStatus(ChangeStatusModel changeStatusModel)
+        {
+            var response = await _httpClient.PostAsJsonAsync("api/Request/ChangeStatus", changeStatusModel);
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.ReadFromJsonAsync<int>();
+            }
+
+            throw new HttpRequestException($"Failed to change status to request: {response.ReasonPhrase}");
         }
 
         public async Task<List<RequestModel>> GetRequests()

@@ -4,6 +4,7 @@ using BackOffice.Server.Application.Locations.GetLocations;
 using BackOffice.Shared.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using SharedData.Models;
 
 namespace BackOffice.Server.Controllers
 {

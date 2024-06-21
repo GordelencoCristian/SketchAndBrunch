@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using System.Data;
+using SharedData.Models;
 
 namespace BackOffice.Client.Pages.Event.EventModal
 {

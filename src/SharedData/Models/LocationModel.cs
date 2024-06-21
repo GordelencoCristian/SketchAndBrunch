@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace BackOffice.Shared.Models
+namespace SharedData.Models
 {
     public class LocationModel
     {

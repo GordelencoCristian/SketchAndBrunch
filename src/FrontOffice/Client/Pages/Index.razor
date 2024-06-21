@@ -1,78 +1,196 @@
 ﻿@page "/"
+@using System.ComponentModel.DataAnnotations
+@using System.Text.RegularExpressions
+@using BackOffice.Client
+@using FrontOffice.Client.Components
+@using FrontOffice.Client.Services
+@using FrontOffice.Shared.Models
+@using Microsoft.AspNetCore.Components.Forms
+@inject IEventService EventService;
+@inject IRequestService RequestService;
+@inject NavigationManager NavManager;
+@if (_isLoading)
+{
+    <div class="loading-container">
+        <MudProgressCircular Color="Color.Primary" Style="height:100px;width:100px;" Indeterminate="true" />
+    </div>
+}
+else
+{
+    @if (_showSuccessPage)
+    {
+        <EditForm EditContext="@_requestEditContext" OnSubmit="() => ValidateContext()">
+            <DataAnnotationsValidator />
+            <MudContainer Class="mt-16" MaxWidth="MaxWidth.Medium">
+                <MudText Typo="Typo.h3" Align="Align.Center" GutterBottom="true">Event Request</MudText>
+                <MudGrid Spacing="6" Class="mt-16">
 
+                    <MudItem xs="7">
+                        <MudText Typo="Typo.h5" GutterBottom="true">Application Form</MudText>
+                        <MudGrid>
+                            <MudItem xs="12">
+                                <MudTextField Label="First name"
+                                              @bind-Value="RequestModel.ApplicantUser.FirstName"
+                                              For="@(() => RequestModel.ApplicantUser.FirstName)" />
+                            </MudItem>
+                            <MudItem xs="12">
+                                <MudTextField Label="Last name"
+                                              @bind-Value="RequestModel.ApplicantUser.LastName"
+                                              For="@(() => RequestModel.ApplicantUser.LastName)" />
+                            </MudItem>
+                            <MudItem xs="12">
+                                <MudTextField Label="Email"
+                                              @bind-Value="RequestModel.ApplicantUser.Email"
+                                              For="@(() => RequestModel.ApplicantUser.Email)" />
+                            </MudItem>
+                            <MudItem xs="12">
+                                <MudTextField Label="Phone Number"
+                                              @bind-Value="RequestModel.ApplicantUser.PhoneNumber"
+                                              For="@(() => RequestModel.ApplicantUser.PhoneNumber)" />
+                            </MudItem>
+                            <MudItem xs="12" Class="d-flex justify-center">
+                                <MudButton Variant="Variant.Filled" DisableElevation="true" Color="Color.Primary" OnClick="ValidateContext" Size="Size.Large" Class="mt-8">Register to event</MudButton>
+                            </MudItem>
+                        </MudGrid>
+                    </MudItem>
 
-<MudContainer Class="mt-16" MaxWidth="MaxWidth.Medium">
-    <MudText Typo="Typo.h3" Align="Align.Center" GutterBottom="true">Checkout</MudText>
-    <MudGrid Spacing="6" Class="mt-16">
-        <MudItem xs="7">
-            <MudText Typo="Typo.h5" GutterBottom="true">Billing address</MudText>
-            <MudGrid>
-                <MudItem xs="12">
-                    <MudTextField T="string" Label="Email" />
-                </MudItem>
-                <MudItem xs="12">
-                    <MudTextField T="string" Label="Mobile number" />
-                </MudItem>
-                <MudItem xs="12">
-                    <MudTextField T="string" Label="Personal number" />
-                </MudItem>
-                <MudItem xs="6">
-                    <MudTextField T="string" Label="First name" />
-                </MudItem>
-                <MudItem xs="6">
-                    <MudTextField T="string" Label="Last name" />
-                </MudItem>
-                <MudItem xs="12">
-                    <MudTextField T="string" Label="Address" />
-                </MudItem>
-                <MudItem xs="6">
-                    <MudTextField T="string" Label="Postal code" />
-                </MudItem>
-                <MudItem xs="6">
-                    <MudTextField T="string" Label="Postal Area" />
-                </MudItem>
-                <MudItem xs="12" Class="d-flex justify-center">
-                    <MudButton Variant="Variant.Filled" DisableElevation="true" Color="Color.Primary" Size="Size.Large" Class="mt-8">Continue to Payment</MudButton>
-                </MudItem>
-            </MudGrid>
-        </MudItem>
-        <MudItem xs="5">
-            <MudText Typo="Typo.h5" GutterBottom="true">Cart</MudText>
-            <MudPaper Class="d-flex flex-column" Style="height:100%;" Outlined="true">
-                <MudList Clickable="true">
-                    <MudListItem Icon="@Icons.Material.Filled.ContentCut">
-                        <div class="d-flex">
-                            <MudText>Scissor - Big</MudText>
-                            <MudText Inline="true" Class="ml-auto">$5</MudText>
-                        </div>
-                    </MudListItem>
-                    <MudListItem Icon="@Icons.Material.Filled.AirplanemodeActive">
-                        <div class="d-flex">
-                            <MudText>Model Airplane</MudText>
-                            <MudText Class="ml-auto">$20</MudText>
-                        </div>
-                    </MudListItem>
-                    <MudListItem Icon="@Icons.Material.Filled.Create">
-                        <div class="d-flex">
-                            <MudText>Plastic Glue</MudText>
-                            <MudText Class="ml-auto">$12</MudText>
-                        </div>
-                    </MudListItem>
-                    <MudListItem Icon="@Icons.Material.Filled.ColorLens">
-                        <div class="d-flex">
-                            <MudText>Color set - Modern planes</MudText>
-                            <MudText Class="ml-auto">$16</MudText>
-                        </div>
-                    </MudListItem>
-                </MudList>
-                <div class="mt-auto">
-                    <MudDivider />
-                    <div class="d-flex pa-4">
-                        <MudText>Total:</MudText>
-                        <MudText Class="ml-auto"><b>$53</b></MudText>
-                    </div>
-                </div>
-            </MudPaper>
-        </MudItem>
-    </MudGrid>
-</MudContainer>
+                    <MudItem xs="5">
+                        <MudText Typo="Typo.h5" GutterBottom="true">Event Description</MudText>
+                        <MudPaper Class="d-flex flex-column" Style="height:100%;" Outlined="true">
+                            <MudList>
+                                <MudListItem Disabled="true" Icon="@Icons.Material.Filled.Event">
+                                    <div class="d-flex">
+                                        <MudText>Event Name</MudText>
+                                    </div>
+                                </MudListItem>
+                                <MudListItem>
+                                    <div class="d-flex">
+                                        <MudText>@RequestModel?.Event?.Name</MudText>
+                                    </div>
+                                </MudListItem>
+
+                                <MudListItem Disabled="true" Icon="@Icons.Material.Filled.Description">
+                                    <div class="d-flex">
+                                        <MudText>Event Description</MudText>
+                                    </div>
+                                </MudListItem>
+                                <MudListItem>
+                                    <div class="d-flex">
+                                        <MudText>@RequestModel?.Event?.Description</MudText>
+                                    </div>
+                                </MudListItem>
+
+                                <MudListItem Disabled="true" Icon="@Icons.Material.Filled.DateRange">
+                                    <div class="d-flex">
+                                        <MudText>Event Time</MudText>
+                                    </div>
+                                </MudListItem>
+                                <MudListItem>
+                                    <div class="d-flex">
+                                        <MudText>@RequestModel?.Event?.EventTime.ToString("D")</MudText>
+                                    </div>
+                                </MudListItem>
+
+                                <MudListItem Disabled="true" Icon="@Icons.Material.Filled.LocationCity">
+                                    <div class="d-flex">
+                                        <MudText>Location</MudText>
+                                    </div>
+                                </MudListItem>
+                                <MudListItem>
+                                    <div class="d-flex">
+                                        <MudText>@RequestModel?.Event?.Location.Name</MudText>
+                                    </div>
+                                </MudListItem>
+                                <MudListItem>
+                                    <div class="d-flex">
+                                        <MudText>@RequestModel?.Event?.Location.Adress</MudText>
+                                    </div>
+                                </MudListItem>
+                            </MudList>
+                            <div class="mt-auto">
+                                <MudDivider />
+                                <div class="d-flex pa-4">
+                                    <MudIconButton OnClick="RedirectToInstagram" Icon="@Icons.Custom.Brands.Instagram" Title="Instagram" />
+                                    <MudSpacer />
+                                    <MudIconButton OnClick="RedirectToFaceBook" Icon="@Icons.Custom.Brands.Facebook" Title="Facebook" />
+                                    <MudSpacer />
+                                    <MudIconButton OnClick="RedirectToGoogle" Icon="@Icons.Custom.Brands.Google" Title="Google" />
+                                </div>
+                            </div>
+                        </MudPaper>
+                    </MudItem>
+                </MudGrid>
+            </MudContainer>
+        </EditForm>
+    }
+    else
+    {
+        <SuccessApplyPage></SuccessApplyPage>
+    }
+ 
+}
+
+@code{
+    private bool _showSuccessPage = true;
+    private bool _isLoading = false;
+    public EditContext? _requestEditContext { get; set; }
+    public RequestModel RequestModel { get; set; } = new();
+  
+    protected override async Task OnInitializedAsync()
+    {
+        _isLoading = true;
+        StateHasChanged();
+
+        _requestEditContext = new EditContext(RequestModel);
+        var events = await EventService.GetEvents();
+        RequestModel.Event = events.LastOrDefault();
+
+        ConsoleLog.LogAsJson("Events:", events);
+
+        _isLoading = false;
+        StateHasChanged();
+    }
+
+    private async Task ValidateContext()
+    {
+        ConsoleLog.LogAsJson("Validation");
+        var isValid = _requestEditContext != null && _requestEditContext.Validate(); ;
+
+        if (isValid)
+        {
+            // //UserProfileModel.AvatarBase64 = _uploadAvatarComponent.GetBase64Image();
+            await RequestService.AddRequest(RequestModel);
+
+            _showSuccessPage = true;
+            StateHasChanged();
+            // Submit();
+        }
+        else return;
+    }
+
+    private void RedirectToInstagram()
+    {
+        NavManager.NavigateTo($"https://www.instagram.com/sketchandbrunch.bucharest/", false);
+    }
+
+    private void RedirectToFaceBook()
+    {
+        NavManager.NavigateTo($"https://www.facebook.com/profile.php?id=100090178208217", true);
+    }
+
+    private void RedirectToGoogle()
+    {
+        NavManager.NavigateTo($"https://www.patreon.com/sketchandbrunch_bucharest", true);
+    }
+
+}
+
+<style>
+    .loading-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh; 
+        width: 100vw; 
+    }
+</style>

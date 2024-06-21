@@ -3,6 +3,7 @@
 @using BackOffice.Client.Services
 @using BackOffice.Shared.Models
 @using System.Formats.Asn1
+@using SharedData.Enums
 
 @inject IDialogService DialogService
 @inject IRequestService RequestService;
@@ -29,7 +30,8 @@
         <MudTh Class="text-center">EventTime</MudTh>
         <MudTh Class="text-center">Description</MudTh>
         <MudTh Class="text-center">Location</MudTh>
-        <MudTh Class="text-center">UserProfile</MudTh>
+        <MudTh Class="text-center">Applicant User</MudTh>
+        <MudTh Class="text-center">Status</MudTh>
         <MudTh Class="text-end">Actions</MudTh>
     </HeaderContent>
     <RowTemplate>
@@ -39,13 +41,18 @@
         <MudTd DataLabel="Location" Class="text-center">
             @context.Event.Location.Name (@context.Event.Location.Adress)
         </MudTd>
-        <MudTd DataLabel="UserProfile" Class="text-center">
-            @context.UserProfile.FirstName @context.UserProfile.LastName @context.UserProfile.Email
+        <MudTd DataLabel="ApplicantUser" Class="text-center">
+            @context.ApplicantUser.FullName (@context.ApplicantUser.Email)
+        </MudTd>
+        <MudTd DataLabel="Status" Class="text-center">
+            @context.Status.GetValueOrDefault()
         </MudTd>
         <MudTd Class="text-end">
             <MudMenu Icon="@Icons.Material.Filled.MoreVert" Size="Size.Small">
                 @* <MudMenuItem><MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" Size="Size.Small" OnClick="() => OpenModal(context)" /></MudMenuItem> *@
-                <MudMenuItem><MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" Size="Size.Small" OnClick="() => Delete(context)" /></MudMenuItem>
+                @* <MudMenuItem><MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" Size="Size.Small" OnClick="() => Delete(context)" /></MudMenuItem> *@
+                <MudMenuItem><MudIconButton Icon="@Icons.Material.Filled.Check" Color="Color.Success" Size="Size.Small" OnClick="() => ChangeStatus(RequestStatusEnumModel.Accepted, context.Id.Value)" /></MudMenuItem>
+                <MudMenuItem><MudIconButton Icon="@Icons.Material.Filled.AssignmentLate" Color="Color.Error" Size="Size.Small" OnClick="() => ChangeStatus(RequestStatusEnumModel.Declined, context.Id.Value)" /></MudMenuItem>
             </MudMenu>
         </MudTd>
     </RowTemplate>
@@ -119,7 +126,13 @@
     {
         await RequestService.DeleteRequest(model.Id.Value);
         await OnInitializedAsync();
+    }
 
+    private async Task ChangeStatus(RequestStatusEnumModel status, int requestId)
+    {
+        var changeStatusModel = new ChangeStatusModel(status, requestId);
+        await RequestService.ChangeStatus(changeStatusModel);
+        await OnInitializedAsync();
     }
 
     private bool FilterFunc1(RequestModel role) => FilterFunc(role, searchString1);

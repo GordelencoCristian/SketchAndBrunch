@@ -1,5 +1,6 @@
 ﻿using BackOffice.Shared.Models;
 using MediatR;
+using SharedData.Models;
 
 namespace BackOffice.Server.Application.Events.GetEvents
 {

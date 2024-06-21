@@ -3,6 +3,7 @@ using BackOffice.Shared.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using MudBlazor;
+using SharedData.Models;
 
 namespace BackOffice.Client.Pages.Requests.RequestModal
 {

@@ -2,6 +2,7 @@
 using BackOffice.Shared.Models;
 using MediatR;
 using System.Net.Http.Json;
+using SharedData.Models;
 
 namespace BackOffice.Client.Services.Implementation
 {

@@ -1,9 +1,9 @@
 ﻿using BackOffice.Server.Application.Events.AddEditEvent;
 using BackOffice.Server.Application.Events.DeleteEvent;
 using BackOffice.Server.Application.Events.GetEvents;
-using BackOffice.Shared.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using SharedData.Models;
 
 namespace BackOffice.Server.Controllers
 {

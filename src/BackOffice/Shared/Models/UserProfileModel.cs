@@ -1,6 +1,6 @@
 ﻿using BackOffice.Shared.Enums;
 using System.ComponentModel.DataAnnotations;
-using BackOffice.Shared.Validators;
+using SharedData.Validators.Validators;
 
 namespace BackOffice.Shared.Models
 {

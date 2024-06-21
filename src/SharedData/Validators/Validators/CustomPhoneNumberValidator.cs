@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace BackOffice.Shared.Validators
+namespace SharedData.Validators.Validators
 {
     public class CustomPhoneNumberValidator : ValidationAttribute
     {

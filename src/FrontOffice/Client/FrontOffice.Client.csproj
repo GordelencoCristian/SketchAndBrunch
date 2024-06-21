@@ -523,6 +523,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\SharedData\SharedData.csproj" />
     <ProjectReference Include="..\Shared\FrontOffice.Shared.csproj" />
   </ItemGroup>
 

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BackOffice.Shared.Models;
 using Persistance.Entities;
+using SharedData.Models;
 
 namespace BackOffice.Server.Application.Locations
 {

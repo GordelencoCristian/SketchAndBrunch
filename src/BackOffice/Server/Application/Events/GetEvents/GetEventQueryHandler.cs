@@ -3,6 +3,7 @@ using BackOffice.Shared.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistance.Contexts;
+using SharedData.Models;
 
 namespace BackOffice.Server.Application.Events.GetEvents
 {

@@ -24,6 +24,7 @@ namespace BackOffice.Server.Application.Requests.GetRequests
                 .Include(e => e.Event)
                 .ThenInclude(x => x.EventLocation)
                 .Include(x => x.UserProfile)
+                .Include(x => x.ApplicantUser)
                 .ToListAsync();
 
             try

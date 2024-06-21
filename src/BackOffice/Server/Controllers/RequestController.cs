@@ -1,4 +1,5 @@
 ﻿using BackOffice.Server.Application.Requests.AddEditRequest;
+using BackOffice.Server.Application.Requests.ChangeRequestStatus;
 using BackOffice.Server.Application.Requests.DeleteRequest;
 using BackOffice.Server.Application.Requests.GetRequests;
 using BackOffice.Shared.Models;
@@ -22,6 +23,12 @@ namespace BackOffice.Server.Controllers
         public async Task<int> AddEditRequest([FromBody] RequestModel requestModel)
         {
             return await _sender.Send(new AddEditRequestCommand(requestModel));
+        }
+
+        [HttpPost]
+        public async Task<int> ChangeStatus([FromBody] ChangeStatusModel changeStatusModel)
+        {
+            return await _sender.Send(new ChangeRequestStatusCommand(changeStatusModel));
         }
 
         [HttpGet]
